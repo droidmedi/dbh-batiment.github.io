@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -539,7 +538,6 @@
         }
     </style>
 </head>
-
 <body>
     <header>
         <div class="container header-flex">
@@ -585,7 +583,7 @@
 
     <script>
         (function() {
-            // ===== TOUS LES LIENS IMAGEKIT =====
+            // ===== TOUS LES LIENS IMAGEKIT ===== (avec les nouvelles images img29 à img32)
             const imageUrls = {
                 // Images existantes
                 img1: 'https://ik.imagekit.io/fwmsbpxje/images/img1.jpg?updatedAt=1771411160168',
@@ -601,7 +599,7 @@
                 img11: 'https://ik.imagekit.io/fwmsbpxje/images/img11.jpeg?updatedAt=1771411160910',
                 img12: 'https://ik.imagekit.io/fwmsbpxje/images/img12.jpeg?updatedAt=1771411161974',
 
-                // Images de rénovation
+                // Images de rénovation (existantes)
                 ren21: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img21.jpeg?updatedAt=1771427509487',
                 ren28: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img28.jpeg?updatedAt=1771427508925',
                 ren26: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img26.jpeg?updatedAt=1771427509074',
@@ -611,6 +609,12 @@
                 ren24: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img24.jpeg?updatedAt=1771427508570',
                 ren27: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img27.jpeg?updatedAt=1771427505814',
                 ren22: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img22.jpeg?updatedAt=1771427503676',
+
+                // NOUVELLES IMAGES DE RÉNOVATION (img29 à img32)
+                ren29: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img29.jpeg',  // Salle de bain moderne
+                ren30: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img30.jpeg',  // WC rénové suspendu
+                ren31: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img31.jpeg',  // Séjour lumineux
+                ren32: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img32.jpeg',  // Cuisine moderne
 
                 // Images de débarras
                 deb14: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img14.jpeg?updatedAt=1771427475328',
@@ -789,7 +793,7 @@
                                 <p>Aménagement d’une salle de bain contemporaine aux finitions soignées. Carrelage grand format, douche à l’italienne et mobilier épuré pour un espace lumineux et élégant.</p>
                             </div>
                         </div>
-                        <!-- Nouveaux projets avec les photos de rénovation -->
+                        <!-- Nouveaux projets avec les photos de rénovation existantes -->
                         <div class="card">
                             <img src="${imageUrls.ren25}" class="card-img">
                             <div class="card-content">
@@ -811,14 +815,36 @@
                                 <p>Pose professionnelle de plaques de plâtre pour la réalisation d’un faux plafond moderne. Travail précis assurant isolation, esthétique et finition de qualité pour un intérieur parfaitement aménagé.</p>
                             </div>
                         </div>
+                        <!-- INTÉGRATION DES NOUVELLES IMAGES (ren29 à ren32) -->
                         <div class="card">
-                            <img src="${imageUrls.ren22}" class="card-img">
+                            <img src="${imageUrls.ren29}" class="card-img">
                             <div class="card-content">
-                                <h3>Peinture interieure – Mantes</h3>
-                                <p>Rénovation de façade et peinture extérieure pour une maison de village. Préparation soignée des supports.</p>
+                                <h3>Salle de bain – Rénovation complète</h3>
+                                <p>Création d’une salle de bain moderne et lumineuse avec douche vitrée, faïence contemporaine, meuble vasque suspendu et finitions soignées.</p>
                             </div>
                         </div>
-                        <!-- Projets débarras -->
+                        <div class="card">
+                            <img src="${imageUrls.ren30}" class="card-img">
+                            <div class="card-content">
+                                <h3>WC – Modernisation complète</h3>
+                                <p>WC entièrement rénové avec cuvette suspendue, habillage mural moderne, rangements intégrés et finitions contemporaines.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${imageUrls.ren31}" class="card-img">
+                            <div class="card-content">
+                                <h3>Séjour – Rénovation intérieure complète</h3>
+                                <p>Transformation en un espace de vie chaleureux et lumineux avec parquet neuf, moulures murales et peinture claire pour une ambiance élégante.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${imageUrls.ren32}" class="card-img">
+                            <div class="card-content">
+                                <h3>Cuisine – Rénovation et aménagement sur mesure</h3>
+                                <p>Installation d’une cuisine moderne et optimisée avec mobilier sur mesure, plan de travail en bois, éclairage intégré et finitions élégantes.</p>
+                            </div>
+                        </div>
+                        <!-- Projets débarras existants -->
                         <div class="card">
                             <img src="${imageUrls.deb15}" class="card-img">
                             <div class="card-content">
@@ -910,5 +936,4 @@
         });
     </script>
 </body>
-
 </html>
