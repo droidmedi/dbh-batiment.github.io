@@ -1,939 +1,764 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>DBH Bâtiment · Artisans du bâti</title>
-    <!-- Font Awesome 6 (Free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        
-        body {
-            background-color: #fbfaf8;
-            color: #2f3e46;
-            line-height: 1.5;
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-        /* ----- HEADER ESPACÉ ----- */
-        
-        header {
-            background-color: #1e2f33;
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 6px 15px rgba(0, 20, 10, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-        }
-        
-        .header-flex {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem 1.5rem;
-        }
-        
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .logo-icon {
-            font-size: 2.4rem;
-            color: #f4b942;
-        }
-        
-        .logo-text {
-            text-align: center;
-        }
-        
-        .logo-text h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-            white-space: normal;
-            word-break: keep-all;
-        }
-        
-        .logo-text span {
-            font-size: 0.9rem;
-            color: #cfd7d4;
-            font-weight: 400;
-            display: block;
-        }
-        
-        nav {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding: 0.2rem 0 0.4rem;
-            border-top: 1px solid #3a4f4a;
-            margin-top: 0.2rem;
-        }
-        
-        nav::-webkit-scrollbar {
-            display: none;
-        }
-        
-        nav ul {
-            display: flex;
-            gap: 0.5rem 0.8rem;
-            list-style: none;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0.3rem 0.2rem;
-        }
-        
-        nav ul li a {
-            display: inline-block;
-            padding: 0.7rem 1.2rem;
-            color: #eef3f0;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: 0.2s;
-            font-size: 1.05rem;
-            white-space: nowrap;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid #3d5550;
-        }
-        
-        nav ul li a.active,
-        nav ul li a:hover {
-            background-color: #f4b942;
-            color: #1e2f33;
-            border-color: #f4b942;
-        }
-        
-        @media (min-width: 760px) {
-            .header-flex {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .logo-area {
-                justify-content: flex-start;
-                text-align: left;
-            }
-            .logo-text {
-                text-align: left;
-            }
-            nav {
-                width: auto;
-                border-top: none;
-                margin-top: 0;
-            }
-            nav ul {
-                flex-wrap: nowrap;
-                justify-content: flex-end;
-            }
-            nav ul li a {
-                background-color: transparent;
-                border: none;
-                padding: 0.7rem 1.3rem;
-            }
-        }
-        
-        @media (max-width: 399px) {
-            .logo-text h1 {
-                font-size: 1.5rem;
-            }
-            .logo-text span {
-                font-size: 0.75rem;
-            }
-            nav ul li a {
-                padding: 0.5rem 0.9rem;
-                font-size: 0.9rem;
-            }
-        }
-        
-        main {
-            min-height: 60vh;
-            padding: 2rem 0 2.5rem;
-        }
-        
-        .page-title {
-            font-size: 2.2rem;
-            font-weight: 350;
-            border-left: 6px solid #f4b942;
-            padding-left: 1.2rem;
-            margin-bottom: 2rem;
-            color: #1e2f33;
-            line-height: 1.2;
-            word-break: break-word;
-        }
-        
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .grid-5 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.2rem;
-            margin: 1.5rem 0;
-        }
-        
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.8rem;
-            align-items: center;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
-            transition: 0.15s ease;
-            border: 1px solid #e9e3db;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 25px 30px -12px rgba(45, 62, 60, 0.2);
-        }
-        
-        .card-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            background-color: #e0e8e3;
-        }
-        
-        .img-responsive {
-            width: 100%;
-            height: auto;
-            border-radius: 28px;
-            object-fit: cover;
-        }
-        
-        .img-hero {
-            width: 100%;
-            height: auto;
-            max-height: 260px;
-            object-fit: cover;
-            border-radius: 36px;
-        }
-        
-        .card-content {
-            padding: 1.5rem 1.5rem 2rem;
-            flex-grow: 1;
-        }
-        
-        .card-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.7rem;
-            color: #25413a;
-        }
-        
-        .card-content p {
-            color: #3a5a4f;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: transparent;
-            border: 2px solid #1e2f33;
-            color: #1e2f33;
-            padding: 0.5rem 1.6rem;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            margin-top: 1rem;
-            transition: 0.2s;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            background: #1e2f33;
-            color: white;
-        }
-        
-        .btn-contact {
-            background: #f4b942;
-            border-color: #f4b942;
-            color: #1e2f33;
-        }
-        
-        .btn-contact:hover {
-            background: #1e2f33;
-            border-color: #1e2f33;
-            color: #f4b942;
-        }
-        
-        .info-bar {
-            background: #e9f0ec;
-            border-radius: 40px;
-            padding: 1rem 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem 1.8rem;
-            justify-content: center;
-            margin: 2rem 0 0.5rem;
-            border: 1px solid #cbd5cf;
-        }
-        
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            font-size: 1rem;
-            color: #1e2f33;
-            flex-wrap: wrap;
-        }
-        
-        .info-item i {
-            font-size: 1.5rem;
-            color: #f4b942;
-            width: 1.8rem;
-            text-align: center;
-        }
-        
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            background: white;
-            border-radius: 36px;
-            padding: 1.8rem;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
-        }
-        
-        @media (min-width: 700px) {
-            .contact-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2.5rem;
-                padding: 2.5rem;
-            }
-        }
-        
-        .form-group {
-            margin-bottom: 1.4rem;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: #25413a;
-            font-size: 0.95rem;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.9rem 1.2rem;
-            border: 1px solid #ced9d2;
-            border-radius: 50px;
-            font-size: 1rem;
-            background: #fcfaf7;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        .form-group textarea {
-            min-height: 130px;
-            border-radius: 30px;
-            resize: vertical;
-        }
-        
-        button[type="submit"] {
-            background: #1e2f33;
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 2px solid #1e2f33;
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        button[type="submit"]:hover {
-            background: #f4b942;
-            color: #1e2f33;
-            border-color: #f4b942;
-        }
-        
-        .contact-info-block {
-            background: #eef4f1;
-            border-radius: 32px;
-            padding: 1.8rem;
-        }
-        
-        .contact-detail-item {
-            margin-bottom: 1.8rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .contact-detail-item i {
-            font-size: 1.8rem;
-            color: #f4b942;
-            width: 2.2rem;
-            flex-shrink: 0;
-        }
-        
-        .about-highlight {
-            background: white;
-            border-radius: 36px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-            border: 1px solid #e0e6e2;
-            margin-bottom: 2rem;
-        }
-        
-        .signature-block {
-            background: #f4b94215;
-            border-radius: 32px;
-            padding: 2rem;
-            margin-top: 2rem;
-            border: 1px solid #f4b94260;
-        }
-        
-        .engagement-block {
-            background: #e8f4f0;
-            border-radius: 36px;
-            padding: 2rem;
-            margin: 2.5rem 0 1.5rem;
-            border: 1px solid #c0dad0;
-        }
-        
-        .service-detail {
-            background: white;
-            border-radius: 36px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 1px solid #e0e6e2;
-        }
-        
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: space-around;
-            text-align: center;
-            margin: 1.8rem 0;
-        }
-        
-        .stat-item {
-            flex: 1 1 120px;
-            min-width: 110px;
-        }
-        
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #1e2f33;
-            line-height: 1;
-        }
-        
-        .stat-label {
-            font-size: 0.95rem;
-            color: #4d6a5e;
-        }
-        
-        .images-note {
-            background: #e3f2fd;
-            border-radius: 36px;
-            padding: 1.2rem 1.5rem;
-            margin: 2rem 0 1.5rem;
-            border-left: 6px solid #2196f3;
-            font-size: 1rem;
-            word-break: break-word;
-        }
-        
-        .gallery-title {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: #25413a;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        
-        hr {
-            border: 1px dashed #c9d2cb;
-            margin: 2rem 0;
-        }
-        
-        footer {
-            background: #1e2f33;
-            color: #cfd7d4;
-            text-align: center;
-            padding: 1.8rem 0;
-            font-size: 0.95rem;
-            border-top: 4px solid #f4b942;
-        }
-        
-        img {
-            max-width: 100%;
-            height: auto;
-            vertical-align: middle;
-        }
-        
-        .nav-link,
-        .btn,
-        button,
-        [data-page] {
-            touch-action: manipulation;
-        }
-        
-        @media (max-width: 700px) and (orientation: landscape) {
-            .logo-text h1 {
-                font-size: 1.5rem;
-            }
-            .logo-text span {
-                display: inline-block;
-                font-size: 0.8rem;
-            }
-            nav ul li a {
-                padding: 0.5rem 1rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>DBH Bâtiment · Artisans du bâti</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V62SVHWV1P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V62SVHWV1P');
+  </script>
+
+  <!-- Font Awesome 6 (Free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background-color: #fbfaf8;
+      color: #2f3e46;
+      line-height: 1.5;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    /* ----- HEADER ESPACÉ ----- */
+    header {
+      background-color: #1e2f33;
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 6px 15px rgba(0, 20, 10, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+    .header-flex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem 1.5rem;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .logo-icon {
+      font-size: 2.4rem;
+      color: #f4b942;
+    }
+    .logo-text {
+      text-align: center;
+    }
+    .logo-text h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      white-space: normal;
+      word-break: keep-all;
+    }
+    .logo-text span {
+      font-size: 0.9rem;
+      color: #cfd7d4;
+      font-weight: 400;
+      display: block;
+    }
+    nav {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0.2rem 0 0.4rem;
+      border-top: 1px solid #3a4f4a;
+      margin-top: 0.2rem;
+    }
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+    nav ul {
+      display: flex;
+      gap: 0.5rem 0.8rem;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.3rem 0.2rem;
+    }
+    nav ul li a {
+      display: inline-block;
+      padding: 0.7rem 1.2rem;
+      color: #eef3f0;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: 0.2s;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      background-color: rgba(255,255,255,0.05);
+      border: 1px solid #3d5550;
+    }
+    nav ul li a.active,
+    nav ul li a:hover {
+      background-color: #f4b942;
+      color: #1e2f33;
+      border-color: #f4b942;
+    }
+    @media (min-width: 760px) {
+      .header-flex {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo-area {
+        justify-content: flex-start;
+        text-align: left;
+      }
+      .logo-text {
+        text-align: left;
+      }
+      nav {
+        width: auto;
+        border-top: none;
+        margin-top: 0;
+      }
+      nav ul {
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+      }
+      nav ul li a {
+        background-color: transparent;
+        border: none;
+        padding: 0.7rem 1.3rem;
+      }
+    }
+    @media (max-width: 399px) {
+      .logo-text h1 {
+        font-size: 1.5rem;
+      }
+      .logo-text span {
+        font-size: 0.75rem;
+      }
+      nav ul li a {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.9rem;
+      }
+    }
+    main {
+      min-height: 60vh;
+      padding: 2rem 0 2.5rem;
+    }
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 350;
+      border-left: 6px solid #f4b942;
+      padding-left: 1.2rem;
+      margin-bottom: 2rem;
+      color: #1e2f33;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+      align-items: center;
+    }
+    .card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+      transition: 0.15s ease;
+      border: 1px solid #e9e3db;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 30px -12px rgba(45,62,60,0.2);
+    }
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background-color: #e0e8e3;
+    }
+    .img-responsive {
+      width: 100%;
+      height: auto;
+      border-radius: 28px;
+      object-fit: cover;
+    }
+    .img-hero {
+      width: 100%;
+      height: auto;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 36px;
+    }
+    .card-content {
+      padding: 1.5rem 1.5rem 2rem;
+      flex-grow: 1;
+    }
+    .card-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.7rem;
+      color: #25413a;
+    }
+    .card-content p {
+      color: #3a5a4f;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-block;
+      background: transparent;
+      border: 2px solid #1e2f33;
+      color: #1e2f33;
+      padding: 0.5rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 1rem;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+    .btn:hover {
+      background: #1e2f33;
+      color: white;
+    }
+    .btn-contact {
+      background: #f4b942;
+      border-color: #f4b942;
+      color: #1e2f33;
+    }
+    .btn-contact:hover {
+      background: #1e2f33;
+      border-color: #1e2f33;
+      color: #f4b942;
+    }
+    .info-bar {
+      background: #e9f0ec;
+      border-radius: 40px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.8rem;
+      justify-content: center;
+      margin: 2rem 0 0.5rem;
+      border: 1px solid #cbd5cf;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 1rem;
+      color: #1e2f33;
+      flex-wrap: wrap;
+    }
+    .info-item i {
+      font-size: 1.5rem;
+      color: #f4b942;
+      width: 1.8rem;
+      text-align: center;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      background: white;
+      border-radius: 36px;
+      padding: 1.8rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    }
+    @media (min-width: 700px) {
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+        padding: 2.5rem;
+      }
+    }
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #25413a;
+      font-size: 0.95rem;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: 1px solid #ced9d2;
+      border-radius: 50px;
+      font-size: 1rem;
+      background: #fcfaf7;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-group textarea {
+      min-height: 130px;
+      border-radius: 30px;
+      resize: vertical;
+    }
+    button[type="submit"] {
+      background: #1e2f33;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 2px solid #1e2f33;
+      width: 100%;
+      max-width: 300px;
+    }
+    button[type="submit"]:hover {
+      background: #f4b942;
+      color: #1e2f33;
+      border-color: #f4b942;
+    }
+    .contact-info-block {
+      background: #eef4f1;
+      border-radius: 32px;
+      padding: 1.8rem;
+    }
+    .contact-detail-item {
+      margin-bottom: 1.8rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .contact-detail-item i {
+      font-size: 1.8rem;
+      color: #f4b942;
+      width: 2.2rem;
+      flex-shrink: 0;
+    }
+    .about-highlight {
+      background: white;
+      border-radius: 36px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      border: 1px solid #e0e6e2;
+      margin-bottom: 2rem;
+    }
+    .signature-block {
+      background: #f4b94215;
+      border-radius: 32px;
+      padding: 2rem;
+      margin-top: 2rem;
+      border: 1px solid #f4b94260;
+    }
+    .engagement-block {
+      background: #e8f4f0;
+      border-radius: 36px;
+      padding: 2rem;
+      margin: 2.5rem 0 1.5rem;
+      border: 1px solid #c0dad0;
+    }
+    .service-detail {
+      background: white;
+      border-radius: 36px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 1px solid #e0e6e2;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-around;
+      text-align: center;
+      margin: 1.8rem 0;
+    }
+    .stat-item {
+      flex: 1 1 120px;
+      min-width: 110px;
+    }
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1e2f33;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.95rem;
+      color: #4d6a5e;
+    }
+    .images-note {
+      background: #e3f2fd;
+      border-radius: 36px;
+      padding: 1.2rem 1.5rem;
+      margin: 2rem 0 1.5rem;
+      border-left: 6px solid #2196f3;
+      font-size: 1rem;
+      word-break: break-word;
+    }
+    .gallery-title {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: #25413a;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    hr {
+      border: 1px dashed #c9d2cb;
+      margin: 2rem 0;
+    }
+    footer {
+      background: #1e2f33;
+      color: #cfd7d4;
+      text-align: center;
+      padding: 1.8rem 0;
+      font-size: 0.95rem;
+      border-top: 4px solid #f4b942;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
+    .nav-link,
+    .btn,
+    button,
+    [data-page] {
+      touch-action: manipulation;
+    }
+    @media (max-width: 700px) and (orientation: landscape) {
+      .logo-text h1 {
+        font-size: 1.5rem;
+      }
+      .logo-text span {
+        display: inline-block;
+        font-size: 0.8rem;
+      }
+      nav ul li a {
+        padding: 0.5rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container header-flex">
-            <div class="logo-area">
-                <i class="fas fa-home logo-icon"></i>
-                <div class="logo-text">
-                    <h1>DBH Bâtiment</h1>
-                    <span>rénovation · sérieux · confiance</span>
-                </div>
+  <header>
+    <div class="container header-flex">
+      <div class="logo-area">
+        <i class="fas fa-home logo-icon"></i>
+        <div class="logo-text">
+          <h1>DBH Bâtiment</h1>
+          <span>rénovation · sérieux · confiance</span>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#accueil" class="nav-link active" data-page="accueil">Accueil</a></li>
+          <li><a href="#a-propos" class="nav-link" data-page="a-propos">À propos</a></li>
+          <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
+          <li><a href="#projets" class="nav-link" data-page="projets">Projets</a></li>
+          <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="page-content"></div>
+    <div class="info-bar">
+      <div class="info-item"><i class="fas fa-map-pin"></i> 21 Rue de Fontenay, 78200 Magnanville</div>
+      <div class="info-item"><i class="fas fa-phone-alt"></i> +33 7 72 22 76 74</div>
+      <div class="info-item"><i class="fas fa-envelope"></i> Dbh.bati@gmail.com</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 DBH Bâtiment — 21 Rue de Fontenay, Magnanville — Tél. +33 7 72 22 76 74</p>
+      <p style="margin-top: 0.8rem; font-size: 0.9rem;">suivez-nous
+        <i class="fab fa-facebook" style="margin-left: 0.8rem;"></i>
+        <i class="fab fa-instagram" style="margin-left: 0.6rem;"></i>
+        <i class="fab fa-linkedin" style="margin-left: 0.6rem;"></i>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // ===== TOUS LES LIENS IMAGEKIT =====
+      const imageUrls = {
+        img1: 'https://ik.imagekit.io/fwmsbpxje/images/img1.jpg?updatedAt=1771411160168',
+        img2: 'https://ik.imagekit.io/fwmsbpxje/images/img2.jpg?updatedAt=1771411156799',
+        img3: 'https://ik.imagekit.io/fwmsbpxje/images/img3.jpg?updatedAt=1771411160124',
+        img4: 'https://ik.imagekit.io/fwmsbpxje/images/img4.jpeg?updatedAt=1771411159989',
+        img5: 'https://ik.imagekit.io/fwmsbpxje/images/img5.jpeg?updatedAt=1771411157796',
+        img6: 'https://ik.imagekit.io/fwmsbpxje/images/img6.jpeg?updatedAt=1771411160829',
+        img7: 'https://ik.imagekit.io/fwmsbpxje/images/img7.jpeg?updatedAt=1771411146030',
+        img8: 'https://ik.imagekit.io/fwmsbpxje/images/img8.jpeg?updatedAt=1771411161882',
+        img9: 'https://ik.imagekit.io/fwmsbpxje/images/img9.jpeg?updatedAt=1771411154689',
+        img10: 'https://ik.imagekit.io/fwmsbpxje/images/img10.jpeg?updatedAt=1771411151954',
+        img11: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img33.jpeg?updatedAt=1771411160910',
+        img12: 'https://ik.imagekit.io/fwmsbpxje/images/img12.jpeg?updatedAt=1771411161974',
+        ren21: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img21.jpeg?updatedAt=1771427509487',
+        ren28: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img28.jpeg?updatedAt=1771427508925',
+        ren26: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img26.jpeg?updatedAt=1771427509074',
+        ren23: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img23.jpeg?updatedAt=1771427508879',
+        ren25: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img25.jpeg?updatedAt=1771427508752',
+        ren20: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img20.jpeg?updatedAt=1771427508613',
+        ren24: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img24.jpeg?updatedAt=1771427508570',
+        ren27: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img27.jpeg?updatedAt=1771427505814',
+        ren22: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img22.jpeg?updatedAt=1771427503676',
+        ren29: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img29.jpeg',
+        ren30: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img30.jpeg',
+        ren31: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img31.jpeg',
+        ren32: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img32.jpeg',
+        // NOUVELLES IMAGES AJOUTÉES
+        im34: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/im34.jpeg',
+        v35: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/v35.jpeg',
+        deb14: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img14.jpeg?updatedAt=1771427475328',
+        deb15: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img15.jpeg?updatedAt=1771427477610',
+        deb16: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img16.jpeg?updatedAt=1771427471744',
+        deb18: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img18.jpeg?updatedAt=1771427477915',
+        deb19: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img19.jpeg?updatedAt=1771427476232'
+      };
+
+      const pageContent = document.getElementById('page-content');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      const pages = {
+        accueil: `
+          <h2 class="page-title">Bienvenue chez DBH Bâtiment</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+            <div style="flex: 1 1 260px;">
+              <p style="font-size: 1.2rem; font-weight: 300;">Artisan depuis 15 ans, nous construisons et rénovons avec passion dans le secteur de Magnanville et des Yvelines.</p>
+              <p>DBH Bâtiment, c'est la promesse d'un travail soigné, dans les délais et avec des matériaux de qualité. Découvrez nos réalisations.</p>
+              <a href="#contact" class="btn btn-contact" data-page="contact" style="margin-top: 1.5rem;">Demander un devis →</a>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#accueil" class="nav-link active" data-page="accueil">Accueil</a></li>
-                    <li><a href="#a-propos" class="nav-link" data-page="a-propos">À propos</a></li>
-                    <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
-                    <li><a href="#projets" class="nav-link" data-page="projets">Projets</a></li>
-                    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+            <img src="${imageUrls.img3}" alt="DBH Bâtiment accueil" class="img-hero" style="flex: 1 1 260px; max-height: 240px;">
+          </div>
+          <hr>
+          <h3 style="font-size: 1.9rem; margin-bottom: 1.2rem;">Nos trois valeurs</h3>
+          <div class="grid-3">
+            <div class="card">
+              <img src="${imageUrls.img2}" alt="Proximité" class="card-img">
+              <div class="card-content"><h3>Proximité</h3><p>À l'écoute de vos projets, nous vous conseillons de la première visite jusqu'à la livraison. Nous privilégions le contact humain et la réactivité.</p></div>
+            </div>
+            <div class="card">
+              <img src="${imageUrls.img1}" alt="Savoir-faire" class="card-img">
+              <div class="card-content"><h3>Savoir-faire</h3><p>Maçons, carreleurs, charpentiers : une équipe expérimentée pour des finitions impeccables. Nous perpétuons les techniques traditionnelles.</p></div>
+            </div>
+            <div class="card">
+              <img src="${imageUrls.img4}" alt="Matériaux durables" class="card-img">
+              <div class="card-content"><h3>Matériaux durables</h3><p>Nous privilégions les fournisseurs locaux et les isolants écologiques. Une construction saine pour vous et pour l'environnement.</p></div>
+            </div>
+          </div>
+          <div class="engagement-block">
+            <h3 style="color: #1e2f33; margin-bottom: 1.5rem;"><i class="fas fa-heart" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre engagement</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Chez DBH Bâtiment, nous plaçons la qualité et la satisfaction client au cœur de chacune de nos réalisations. Chaque chantier, qu'il s'agisse d'une simple remise en état ou d'une rénovation complète, est réalisé avec le même niveau d'exigence et d'attention aux détails.</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nous nous engageons à fournir un travail soigné, durable et conforme aux normes en vigueur. Le respect des délais annoncés fait partie de nos priorités, car nous savons à quel point votre temps est précieux. Nous veillons également à maintenir un chantier propre et organisé tout au long des travaux.</p>
+            <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
+          </div>
+        `,
+        "a-propos": `
+          <h2 class="page-title">À propos de DBH Bâtiment</h2>
+          <div class="about-highlight">
+            <div class="grid-2">
+              <div>
+                <p style="font-size: 1.3rem; font-weight: 300;">Nous intervenons pour transformer, moderniser et optimiser vos espaces intérieurs.</p>
+                <p style="margin-top: 1.2rem;">Nous réalisons la pose de placo (cloisons, doublages, aménagement de pièces), la création de faux plafonds pour un rendu esthétique et une meilleure isolation, ainsi que les travaux d'isolation thermique et phonique pour améliorer votre confort au quotidien.</p>
+                <p style="margin-top: 1rem;">Nous prenons également en charge les travaux d'électricité (mise aux normes, installation de luminaires, prises, tableaux électriques) et de plomberie (installation ou remplacement de sanitaires, robinetterie, réseaux d'eau).</p>
+                <p style="margin-top: 1rem; font-weight: 500;">Notre objectif est de vous livrer un intérieur fonctionnel, confortable et conforme aux normes en vigueur.</p>
+              </div>
+              <img src="${imageUrls.img5}" alt="Équipe DBH Bâtiment" class="img-responsive" style="border-radius: 28px; max-height: 240px; object-fit: cover;">
+            </div>
+            <div class="stats">
+              <div class="stat-item"><span class="stat-number">100%</span> <span class="stat-label">satisfaits</span></div>
+            </div>
+          </div>
+          <div class="signature-block">
+            <h3 style="color: #1e2f33;"><i class="fas fa-quote-right" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre philosophie</h3>
+            <p style="font-size: 1.1rem; font-style: italic; margin: 1rem 0 1.2rem;">« Un chantier réussi, c'est un client qui devient ami. Nous mettons autant d'attention dans une petite rénovation que dans une construction complète. »</p>
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+              <div style="background: #f4b942; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1e2f33; font-weight: bold;">IM</div>
+              <div><strong>IMLOULI</strong> – fondateur </div>
+            </div>
+          </div>
+          <hr>
+          <div style="display: flex; flex-wrap: wrap; gap: 1.8rem; margin-top: 1.8rem;">
+            <div style="flex: 1 1 200px;"><i class="fas fa-handshake" style="font-size: 2rem; color: #f4b942;"></i><h4>Engagement et confiance</h4><p>La satisfaction client représente notre engagement à offrir un service professionnel basé sur la transparence et une confiance durable.</p></div>
+            <div style="flex: 1 1 200px;"><i class="fas fa-calendar-check" style="font-size: 2rem; color: #f4b942;"></i><h4>Garantie décennale</h4><p>Votre projet est assuré et sécurisé de A à Z.</p></div>
+          </div>
+        `,
+        services: `
+          <h2 class="page-title">Nos services</h2>
+          <div class="grid-3">
+            <div class="card"><img src="${imageUrls.img8}" class="card-img"><div class="card-content"><h3>Rénovation intérieure</h3><p>Plâtrerie, carrelage, peinture, agencements sur-mesure : donnez une nouvelle vie à vos espaces. Rénovation complète ou partielle.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren21}" class="card-img"><div class="card-content"><h3>Rénovation extérieure</h3><p>DBH Bâtiment réalise tous vos travaux extérieure. Nous préparons soigneusement les supports (ponçage, enduits, rebouchage) afin d'assurer une finition propre, durable et esthétique.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren24}" class="card-img"><div class="card-content"><h3>Carrelage & revêtements de sols</h3><p>Nous intervenons pour la pose de carrelage mural et au sol, ainsi que tous types de revêtements de sols. Que ce soit pour une salle de bain, une cuisine, un salon ou un espace professionnel, nous vous garantissons un travail précis et soigné.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren26}" class="card-img"><div class="card-content"><h3>Rénovation interieure - petite maçonnerie</h3><p>Nous réalisons des travaux de rénovation extérieure pour redonner vie à vos façades et espaces extérieurs. Cela comprend la peinture extérieure, les petites réparations de maçonnerie (rebouchage de fissures, reprises de murs, petits ouvrages), ainsi que divers travaux d'amélioration et d'entretien.</p></div></div>
+            <div class="card"><img src="${imageUrls.img10}" class="card-img"><div class="card-content"><h3>aménagements interieure-extérieurs</h3><p>Pavés, dalles, béton désactivé : valorisez votre jardin ou cour. Création de pool house et cuisine d'été.</p></div></div>
+            <!-- NOUVELLE CARTE pour v35 (Pose de carrelage) -->
+            <div class="card"><img src="${imageUrls.v35}" class="card-img"><div class="card-content"><h3>🧱 Pose de Carrelage – Finition Précise</h3><p>Installation professionnelle de carrelage avec système de nivellement pour un alignement parfait et une surface uniforme. Application soignée de la colle, respect des joints et finition impeccable pour un rendu durable et esthétique. ✨</p></div></div>
+          </div>
+          <div class="service-detail">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem; color: #25413a;"><i class="fas fa-truck" style="color: #f4b942; margin-right: 1rem;"></i>Service de débarras</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">En complément de nos travaux de rénovation, nous proposons un service de débarras professionnel. Nous intervenons pour vider maisons, appartements, garages ou locaux après travaux ou avant rénovation.</p>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">Nous assurons l'évacuation des gravats, encombrants et déchets, afin de vous laisser un espace propre et prêt à être réutilisé.</p>
+            <div class="gallery-title"><i class="fas fa-images" style="color: #f4b942;"></i><span>Quelques exemples de nos interventions</span></div>
+            <div class="grid-5">
+              <img src="${imageUrls.deb15}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras avant/après">
+              <img src="${imageUrls.deb18}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras maison">
+              <img src="${imageUrls.deb19}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Évacuation encombrants">
+              <img src="${imageUrls.deb14}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras garage">
+              <img src="${imageUrls.deb16}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Nettoyage après débarras">
+            </div>
+            <div style="margin-top: 2rem; text-align: center;">
+              <a href="#contact" class="btn btn-contact" data-page="contact" style="font-size: 1.2rem; padding: 0.8rem 2.5rem;">Demander un devis débarras</a>
+            </div>
+          </div>
+          <div class="engagement-block">
+            <h3 style="color: #1e2f33; margin-bottom: 1.5rem;"><i class="fas fa-handshake" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre engagement</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Chez DBH Bâtiment, nous plaçons la qualité et la satisfaction client au cœur de chacune de nos réalisations. Chaque chantier, qu'il s'agisse d'une simple remise en état ou d'une rénovation complète, est réalisé avec le même niveau d'exigence et d'attention aux détails.</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nous nous engageons à fournir un travail soigné, durable et conforme aux normes en vigueur. Le respect des délais annoncés fait partie de nos priorités, car nous savons à quel point votre temps est précieux. Nous veillons également à maintenir un chantier propre et organisé tout au long des travaux.</p>
+            <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
+          </div>
+        `,
+        projets: `
+          <h2 class="page-title">Réalisations récentes</h2>
+          <div class="grid-3">
+            <div class="card"><img src="${imageUrls.img11}" class="card-img"><div class="card-content"><h3>Rénovation Intérieure Complète – Avant / Après</h3><p>Transformation totale d’un espace brut en intérieur moderne et lumineux. Travaux réalisés : faux plafond avec spots intégrés, revêtement de sol, peinture, aménagement cuisine et finitions soignées. Résultat : un espace contemporain, fonctionnel et prêt à vivre. ✨</p></div></div>
+            <div class="card"><img src="${imageUrls.img1}" class="card-img"><div class="card-content"><h3>Mise en peinture moderne</h3><p>Travaux de peinture réalisés avec soin et précision. Une finition moderne qui apporte luminosité et fraîcheur à l’espace.</p></div></div>
+            <div class="card"><img src="${imageUrls.img2}" class="card-img"><div class="card-content"><h3>Rénovation de salle de bain moderne</h3><p>Aménagement d’une salle de bain contemporaine aux finitions soignées. Carrelage grand format, douche à l’italienne et mobilier épuré pour un espace lumineux et élégant.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren25}" class="card-img"><div class="card-content"><h3>Transformation complète – Avant / Après</h3><p>Rénovation totale d’un intérieur, du gros rafraîchissement à la finition soignée. Un espace ancien transformé en pièce lumineuse, moderne et élégante grâce à un travail précis et professionnel.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren20}" class="card-img"><div class="card-content"><h3>Rénovation extérieure – Magnanville</h3><p>Peinture de façade et petites réparations de maçonnerie pour une maison individuelle. Travaux d'amélioration et d'entretien.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren28}" class="card-img"><div class="card-content"><h3>Installation de faux plafond en placo</h3><p>Pose professionnelle de plaques de plâtre pour la réalisation d’un faux plafond moderne. Travail précis assurant isolation, esthétique et finition de qualité pour un intérieur parfaitement aménagé.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren29}" class="card-img"><div class="card-content"><h3>Salle de bain – Rénovation complète</h3><p>Création d’une salle de bain moderne et lumineuse avec douche vitrée, faïence contemporaine, meuble vasque suspendu et finitions soignées.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren30}" class="card-img"><div class="card-content"><h3>WC – Modernisation complète</h3><p>WC entièrement rénové avec cuvette suspendue, habillage mural moderne, rangements intégrés et finitions contemporaines.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren31}" class="card-img"><div class="card-content"><h3>Séjour – Rénovation intérieure complète</h3><p>Transformation en un espace de vie chaleureux et lumineux avec parquet neuf, moulures murales et peinture claire pour une ambiance élégante.</p></div></div>
+            <div class="card"><img src="${imageUrls.ren32}" class="card-img"><div class="card-content"><h3>Cuisine – Rénovation et aménagement sur mesure</h3><p>Installation d’une cuisine moderne et optimisée avec mobilier sur mesure, plan de travail en bois, éclairage intégré et finitions élégantes.</p></div></div>
+            <!-- NOUVELLE CARTE pour im34 (Cuisine avant/après) -->
+            <div class="card"><img src="${imageUrls.im34}" class="card-img"><div class="card-content"><h3>🍽️ Aménagement Cuisine – Avant / Après</h3><p>Passage d’un espace brut à une cuisine moderne et entièrement équipée. Installation de meubles sur mesure, plan de travail en bois, crédence design et électroménager intégré pour un rendu élégant, fonctionnel et lumineux. ✨</p></div></div>
+            <div class="card"><img src="${imageUrls.deb15}" class="card-img"><div class="card-content"><h3>Débarras maison – Houdan</h3><p>Intervention complète pour vider une maison avant rénovation. Évacuation de tous les encombrants et nettoyage.</p></div></div>
+            <div class="card"><img src="${imageUrls.deb18}" class="card-img"><div class="card-content"><h3>Débarras garage – Mantes</h3><p>Vidage complet d'un garage et d'un atelier. Tri et évacuation des déchets et encombrants.</p></div></div>
+          </div>
+        `,
+        contact: `
+          <h2 class="page-title">Contactez‑nous</h2>
+          <div class="contact-grid">
+            <div>
+              <p style="margin-bottom: 1.5rem;">Réponse sous 24h, déplacement gratuit pour devis.</p>
+              <form id="demo-contact-form">
+                <div class="form-group"><label for="name">Nom / société</label><input type="text" id="name" placeholder="ex: Jean Dupont"></div>
+                <div class="form-group"><label for="email">Email</label><input type="email" id="email" placeholder="votre@email.com"></div>
+                <div class="form-group"><label for="message">Message</label><textarea id="message" placeholder="Bonjour, je souhaiterais un devis pour..."></textarea></div>
+                <button type="submit"><i class="fas fa-paper-plane" style="margin-right:0.6rem;"></i>Envoyer</button>
+                <p style="margin-top:1rem;">ou appelez directement au +33 7 72 22 76 74</p>
+              </form>
+            </div>
+            <div class="contact-info-block">
+              <h3 style="margin-bottom:1.5rem;">DBH Bâtiment</h3>
+              <div class="contact-detail-item"><i class="fas fa-location-dot"></i> 21 Rue de Fontenay, 78200 Magnanville</div>
+              <div class="contact-detail-item"><i class="fas fa-phone"></i> +33 7 72 22 76 74</div>
+              <div class="contact-detail-item"><i class="fas fa-envelope"></i> Dbh.bati@gmail.com</div>
+              <div style="margin-top:1.5rem; background:white; padding:1.2rem; border-radius:24px;"><i class="fas fa-clock"></i> Lundi-vendredi : 8h–18h · samedi sur RDV</div>
+            </div>
+          </div>
+        `
+      };
 
-    <main class="container">
-        <div id="page-content"></div>
-
-        <div class="info-bar">
-            <div class="info-item"><i class="fas fa-map-pin"></i> 21 Rue de Fontenay, 78200 Magnanville</div>
-            <div class="info-item"><i class="fas fa-phone-alt"></i> +33 7 72 22 76 74</div>
-            <div class="info-item"><i class="fas fa-envelope"></i> Dbh.bati@gmail.com</div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>© 2025 DBH Bâtiment — 21 Rue de Fontenay, Magnanville — Tél. +33 7 72 22 76 74</p>
-            <p style="margin-top: 0.8rem; font-size: 0.9rem;">suivez-nous
-                <i class="fab fa-facebook" style="margin-left: 0.8rem;"></i>
-                <i class="fab fa-instagram" style="margin-left: 0.6rem;"></i>
-                <i class="fab fa-linkedin" style="margin-left: 0.6rem;"></i>
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        (function() {
-            // ===== TOUS LES LIENS IMAGEKIT ===== (avec les nouvelles images img29 à img32)
-            const imageUrls = {
-                // Images existantes
-                img1: 'https://ik.imagekit.io/fwmsbpxje/images/img1.jpg?updatedAt=1771411160168',
-                img2: 'https://ik.imagekit.io/fwmsbpxje/images/img2.jpg?updatedAt=1771411156799',
-                img3: 'https://ik.imagekit.io/fwmsbpxje/images/img3.jpg?updatedAt=1771411160124',
-                img4: 'https://ik.imagekit.io/fwmsbpxje/images/img4.jpeg?updatedAt=1771411159989',
-                img5: 'https://ik.imagekit.io/fwmsbpxje/images/img5.jpeg?updatedAt=1771411157796',
-                img6: 'https://ik.imagekit.io/fwmsbpxje/images/img6.jpeg?updatedAt=1771411160829',
-                img7: 'https://ik.imagekit.io/fwmsbpxje/images/img7.jpeg?updatedAt=1771411146030',
-                img8: 'https://ik.imagekit.io/fwmsbpxje/images/img8.jpeg?updatedAt=1771411161882',
-                img9: 'https://ik.imagekit.io/fwmsbpxje/images/img9.jpeg?updatedAt=1771411154689',
-                img10: 'https://ik.imagekit.io/fwmsbpxje/images/img10.jpeg?updatedAt=1771411151954',
-                img11: 'https://ik.imagekit.io/fwmsbpxje/images/img11.jpeg?updatedAt=1771411160910',
-                img12: 'https://ik.imagekit.io/fwmsbpxje/images/img12.jpeg?updatedAt=1771411161974',
-
-                // Images de rénovation (existantes)
-                ren21: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img21.jpeg?updatedAt=1771427509487',
-                ren28: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img28.jpeg?updatedAt=1771427508925',
-                ren26: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img26.jpeg?updatedAt=1771427509074',
-                ren23: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img23.jpeg?updatedAt=1771427508879',
-                ren25: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img25.jpeg?updatedAt=1771427508752',
-                ren20: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img20.jpeg?updatedAt=1771427508613',
-                ren24: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img24.jpeg?updatedAt=1771427508570',
-                ren27: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img27.jpeg?updatedAt=1771427505814',
-                ren22: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img22.jpeg?updatedAt=1771427503676',
-
-                // NOUVELLES IMAGES DE RÉNOVATION (img29 à img32)
-                ren29: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img29.jpeg',  // Salle de bain moderne
-                ren30: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img30.jpeg',  // WC rénové suspendu
-                ren31: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img31.jpeg',  // Séjour lumineux
-                ren32: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img32.jpeg',  // Cuisine moderne
-
-                // Images de débarras
-                deb14: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img14.jpeg?updatedAt=1771427475328',
-                deb15: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img15.jpeg?updatedAt=1771427477610',
-                deb16: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img16.jpeg?updatedAt=1771427471744',
-                deb18: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img18.jpeg?updatedAt=1771427477915',
-                deb19: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img19.jpeg?updatedAt=1771427476232'
-            };
-
-            const pageContent = document.getElementById('page-content');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            const pages = {
-                accueil: `
-                    <h2 class="page-title">Bienvenue chez DBH Bâtiment</h2>
-                    <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
-                        <div style="flex: 1 1 260px;">
-                            <p style="font-size: 1.2rem; font-weight: 300;">Artisan depuis 15 ans, nous construisons et rénovons avec passion dans le secteur de Magnanville et des Yvelines.</p>
-                            <p>DBH Bâtiment, c'est la promesse d'un travail soigné, dans les délais et avec des matériaux de qualité. Découvrez nos réalisations.</p>
-                            <a href="#contact" class="btn btn-contact" data-page="contact" style="margin-top: 1.5rem;">Demander un devis →</a>
-                        </div>
-                        <img src="${imageUrls.img3}" alt="DBH Bâtiment accueil" class="img-hero" style="flex: 1 1 260px; max-height: 240px;">
-                    </div>
-                    <hr>
-                    <h3 style="font-size: 1.9rem; margin-bottom: 1.2rem;">Nos trois valeurs</h3>
-                    <div class="grid-3">
-                        <div class="card">
-                            <img src="${imageUrls.img2}" alt="Proximité" class="card-img">
-                            <div class="card-content"><h3>Proximité</h3><p>À l'écoute de vos projets, nous vous conseillons de la première visite jusqu'à la livraison. Nous privilégions le contact humain et la réactivité.</p></div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.img1}" alt="Savoir-faire" class="card-img">
-                            <div class="card-content"><h3>Savoir-faire</h3><p>Maçons, carreleurs, charpentiers : une équipe expérimentée pour des finitions impeccables. Nous perpétuons les techniques traditionnelles.</p></div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.img4}" alt="Matériaux durables" class="card-img">
-                            <div class="card-content"><h3>Matériaux durables</h3><p>Nous privilégions les fournisseurs locaux et les isolants écologiques. Une construction saine pour vous et pour l'environnement.</p></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Notre engagement sur l'accueil -->
-                    <div class="engagement-block">
-                        <h3 style="color: #1e2f33; margin-bottom: 1.5rem;"><i class="fas fa-heart" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre engagement</h3>
-                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">Chez DBH Bâtiment, nous plaçons la qualité et la satisfaction client au cœur de chacune de nos réalisations. Chaque chantier, qu'il s'agisse d'une simple remise en état ou d'une rénovation complète, est réalisé avec le même niveau d'exigence et d'attention aux détails.</p>
-                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nous nous engageons à fournir un travail soigné, durable et conforme aux normes en vigueur. Le respect des délais annoncés fait partie de nos priorités, car nous savons à quel point votre temps est précieux. Nous veillons également à maintenir un chantier propre et organisé tout au long des travaux.</p>
-                        <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
-                    </div>
-                `,
-                "a-propos": `
-                    <h2 class="page-title">À propos de DBH Bâtiment</h2>
-                    <div class="about-highlight">
-                        <div class="grid-2">
-                            <div>
-                                <p style="font-size: 1.3rem; font-weight: 300;">Nous intervenons pour transformer, moderniser et optimiser vos espaces intérieurs.</p>
-                                <p style="margin-top: 1.2rem;">Nous réalisons la pose de placo (cloisons, doublages, aménagement de pièces), la création de faux plafonds pour un rendu esthétique et une meilleure isolation, ainsi que les travaux d'isolation thermique et phonique pour améliorer votre confort au quotidien.</p>
-                                <p style="margin-top: 1rem;">Nous prenons également en charge les travaux d'électricité (mise aux normes, installation de luminaires, prises, tableaux électriques) et de plomberie (installation ou remplacement de sanitaires, robinetterie, réseaux d'eau).</p>
-                                <p style="margin-top: 1rem; font-weight: 500;">Notre objectif est de vous livrer un intérieur fonctionnel, confortable et conforme aux normes en vigueur.</p>
-                            </div>
-                            <img src="${imageUrls.img5}" alt="Équipe DBH Bâtiment" class="img-responsive" style="border-radius: 28px; max-height: 240px; object-fit: cover;">
-                        </div>
-                        <div class="stats">
-                            
-                            <div class="stat-item"><span class="stat-number">100%</span> <span class="stat-label">satisfaits</span></div>
-                        </div>
-                    </div>
-                    <div class="signature-block">
-                        <h3 style="color: #1e2f33;"><i class="fas fa-quote-right" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre philosophie</h3>
-                        <p style="font-size: 1.1rem; font-style: italic; margin: 1rem 0 1.2rem;">« Un chantier réussi, c'est un client qui devient ami. Nous mettons autant d'attention dans une petite rénovation que dans une construction complète. »</p>
-                        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                            <div style="background: #f4b942; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1e2f33; font-weight: bold;">IM</div>
-                            <div><strong>IMLOULI</strong> – fondateur </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div style="display: flex; flex-wrap: wrap; gap: 1.8rem; margin-top: 1.8rem;">
-                        <div style="flex: 1 1 200px;"><i class="fas fa-handshake" style="font-size: 2rem; color: #f4b942;"></i><h4>Engagement et confiance</h4><p>La satisfaction client représente notre engagement à offrir un service professionnel basé sur la transparence et une confiance durable.</p></div>
-                        <div style="flex: 1 1 200px;"><i class="fas fa-calendar-check" style="font-size: 2rem; color: #f4b942;"></i><h4>Garantie décennale</h4><p>Votre projet est assuré et sécurisé de A à Z.</p></div>
-                    </div>
-                `,
-                services: `
-                    <h2 class="page-title">Nos services</h2>
-                    <div class="grid-3">
-                        <div class="card">
-                            <img src="${imageUrls.img8}" class="card-img">
-                            <div class="card-content">
-                                <h3>Rénovation intérieure</h3>
-                                <p>Plâtrerie, carrelage, peinture, agencements sur-mesure : donnez une nouvelle vie à vos espaces. Rénovation complète ou partielle.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren21}" class="card-img">
-                            <div class="card-content">
-                                <h3>Rénovation extérieure</h3>
-                                <p>DBH Bâtiment réalise tous vos travaux  extérieure. Nous préparons soigneusement les supports (ponçage, enduits, rebouchage) afin d'assurer une finition propre, durable et esthétique.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren24}" class="card-img">
-                            <div class="card-content">
-                                <h3>Carrelage & revêtements de sols</h3>
-                                <p>Nous intervenons pour la pose de carrelage mural et au sol, ainsi que tous types de revêtements de sols. Que ce soit pour une salle de bain, une cuisine, un salon ou un espace professionnel, nous vous garantissons un travail précis et soigné.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren26}" class="card-img">
-                            <div class="card-content">
-                                <h3>Rénovation interieure - petite maçonnerie</h3>
-                                <p>Nous réalisons des travaux de rénovation extérieure pour redonner vie à vos façades et espaces extérieurs. Cela comprend la peinture extérieure, les petites réparations de maçonnerie (rebouchage de fissures, reprises de murs, petits ouvrages), ainsi que divers travaux d'amélioration et d'entretien.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.img10}" class="card-img">
-                            <div class="card-content">
-                                <h3> aménagements interieure-extérieurs</h3>
-                                <p>Pavés, dalles, béton désactivé : valorisez votre jardin ou cour. Création de pool house et cuisine d'été.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Service Débarras détaillé avec galerie -->
-                    <div class="service-detail">
-                        <h3 style="font-size: 2rem; margin-bottom: 1rem; color: #25413a;">
-                            <i class="fas fa-truck" style="color: #f4b942; margin-right: 1rem;"></i>
-                            Service de débarras
-                        </h3>
-                        <p style="font-size: 1.2rem; margin-bottom: 2rem;">En complément de nos travaux de rénovation, nous proposons un service de débarras professionnel. Nous intervenons pour vider maisons, appartements, garages ou locaux après travaux ou avant rénovation.</p>
-                        <p style="font-size: 1.1rem; margin-bottom: 2rem;">Nous assurons l'évacuation des gravats, encombrants et déchets, afin de vous laisser un espace propre et prêt à être réutilisé.</p>
-                        
-                        <div class="gallery-title">
-                            <i class="fas fa-images" style="color: #f4b942;"></i>
-                            <span>Quelques exemples de nos interventions</span>
-                        </div>
-                        
-                        <div class="grid-5">
-                            <img src="${imageUrls.deb15}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras avant/après">
-                            <img src="${imageUrls.deb18}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras maison">
-                            <img src="${imageUrls.deb19}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Évacuation encombrants">
-                            <img src="${imageUrls.deb14}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras garage">
-                            <img src="${imageUrls.deb16}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Nettoyage après débarras">
-                        </div>
-                        
-                        <div style="margin-top: 2rem; text-align: center;">
-                            <a href="#contact" class="btn btn-contact" data-page="contact" style="font-size: 1.2rem; padding: 0.8rem 2.5rem;">Demander un devis débarras</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Notre engagement dans la page services -->
-                    <div class="engagement-block">
-                        <h3 style="color: #1e2f33; margin-bottom: 1.5rem;"><i class="fas fa-handshake" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre engagement</h3>
-                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">Chez DBH Bâtiment, nous plaçons la qualité et la satisfaction client au cœur de chacune de nos réalisations. Chaque chantier, qu'il s'agisse d'une simple remise en état ou d'une rénovation complète, est réalisé avec le même niveau d'exigence et d'attention aux détails.</p>
-                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nous nous engageons à fournir un travail soigné, durable et conforme aux normes en vigueur. Le respect des délais annoncés fait partie de nos priorités, car nous savons à quel point votre temps est précieux. Nous veillons également à maintenir un chantier propre et organisé tout au long des travaux.</p>
-                        <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
-                    </div>
-                `,
-                projets: `
-                    <h2 class="page-title">Réalisations récentes</h2>
-                    <div class="grid-3">
-                        <div class="card">
-                            <img src="${imageUrls.img11}" class="card-img">
-                            <div class="card-content">
-                                <h3>Maison individuelle – Mantes</h3>
-                                <p>Construction d'une maison 120m² avec garage, livrée en 2024. Prestation clé en main : du terrassement aux finitions.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.img1}" class="card-img">
-                            <div class="card-content">
-                                <h3>Mise en peinture moderne</h3>
-                                <p>Travaux de peinture réalisés avec soin et précision. Une finition moderne qui apporte luminosité et fraîcheur à l’espace.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.img2}" class="card-img">
-                            <div class="card-content">
-                                <h3>Rénovation de salle de bain moderne</h3>
-                                <p>Aménagement d’une salle de bain contemporaine aux finitions soignées. Carrelage grand format, douche à l’italienne et mobilier épuré pour un espace lumineux et élégant.</p>
-                            </div>
-                        </div>
-                        <!-- Nouveaux projets avec les photos de rénovation existantes -->
-                        <div class="card">
-                            <img src="${imageUrls.ren25}" class="card-img">
-                            <div class="card-content">
-                                <h3>Transformation complète – Avant / Après</h3>
-                                <p>Rénovation totale d’un intérieur, du gros rafraîchissement à la finition soignée. Un espace ancien transformé en pièce lumineuse, moderne et élégante grâce à un travail précis et professionnel.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren20}" class="card-img">
-                            <div class="card-content">
-                                <h3>Rénovation extérieure – Magnanville</h3>
-                                <p>Peinture de façade et petites réparations de maçonnerie pour une maison individuelle. Travaux d'amélioration et d'entretien.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren28}" class="card-img">
-                            <div class="card-content">
-                                <h3>Installation de faux plafond en placo</h3>
-                                <p>Pose professionnelle de plaques de plâtre pour la réalisation d’un faux plafond moderne. Travail précis assurant isolation, esthétique et finition de qualité pour un intérieur parfaitement aménagé.</p>
-                            </div>
-                        </div>
-                        <!-- INTÉGRATION DES NOUVELLES IMAGES (ren29 à ren32) -->
-                        <div class="card">
-                            <img src="${imageUrls.ren29}" class="card-img">
-                            <div class="card-content">
-                                <h3>Salle de bain – Rénovation complète</h3>
-                                <p>Création d’une salle de bain moderne et lumineuse avec douche vitrée, faïence contemporaine, meuble vasque suspendu et finitions soignées.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren30}" class="card-img">
-                            <div class="card-content">
-                                <h3>WC – Modernisation complète</h3>
-                                <p>WC entièrement rénové avec cuvette suspendue, habillage mural moderne, rangements intégrés et finitions contemporaines.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren31}" class="card-img">
-                            <div class="card-content">
-                                <h3>Séjour – Rénovation intérieure complète</h3>
-                                <p>Transformation en un espace de vie chaleureux et lumineux avec parquet neuf, moulures murales et peinture claire pour une ambiance élégante.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.ren32}" class="card-img">
-                            <div class="card-content">
-                                <h3>Cuisine – Rénovation et aménagement sur mesure</h3>
-                                <p>Installation d’une cuisine moderne et optimisée avec mobilier sur mesure, plan de travail en bois, éclairage intégré et finitions élégantes.</p>
-                            </div>
-                        </div>
-                        <!-- Projets débarras existants -->
-                        <div class="card">
-                            <img src="${imageUrls.deb15}" class="card-img">
-                            <div class="card-content">
-                                <h3>Débarras maison – Houdan</h3>
-                                <p>Intervention complète pour vider une maison avant rénovation. Évacuation de tous les encombrants et nettoyage.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${imageUrls.deb18}" class="card-img">
-                            <div class="card-content">
-                                <h3>Débarras garage – Mantes</h3>
-                                <p>Vidage complet d'un garage et d'un atelier. Tri et évacuation des déchets et encombrants.</p>
-                            </div>
-                        </div>
-                    </div>
-                `,
-                contact: `
-                    <h2 class="page-title">Contactez‑nous</h2>
-                    <div class="contact-grid">
-                        <div>
-                            <p style="margin-bottom: 1.5rem;">Réponse sous 24h, déplacement gratuit pour devis.</p>
-                            <form id="demo-contact-form">
-                                <div class="form-group"><label for="name">Nom / société</label><input type="text" id="name" placeholder="ex: Jean Dupont"></div>
-                                <div class="form-group"><label for="email">Email</label><input type="email" id="email" placeholder="votre@email.com"></div>
-                                <div class="form-group"><label for="message">Message</label><textarea id="message" placeholder="Bonjour, je souhaiterais un devis pour..."></textarea></div>
-                                <button type="submit"><i class="fas fa-paper-plane" style="margin-right:0.6rem;"></i>Envoyer</button>
-                                <p style="margin-top:1rem;">ou appelez directement au +33 7 72 22 76 74</p>
-                            </form>
-                        </div>
-                        <div class="contact-info-block">
-                            <h3 style="margin-bottom:1.5rem;">DBH Bâtiment</h3>
-                            <div class="contact-detail-item"><i class="fas fa-location-dot"></i> 21 Rue de Fontenay, 78200 Magnanville</div>
-                            <div class="contact-detail-item"><i class="fas fa-phone"></i> +33 7 72 22 76 74</div>
-                            <div class="contact-detail-item"><i class="fas fa-envelope"></i> Dbh.bati@gmail.com</div>
-                            <div style="margin-top:1.5rem; background:white; padding:1.2rem; border-radius:24px;"><i class="fas fa-clock"></i> Lundi-vendredi : 8h–18h · samedi sur RDV</div>
-                        </div>
-                    </div>
-                `
-            };
-
-            function showPage(pageId) {
-                pageContent.innerHTML = pages[pageId] || pages.accueil;
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('data-page') === pageId);
-                });
-                attachNavLinksListeners();
-            }
-
-            function attachNavLinksListeners() {
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.removeEventListener('click', navClickHandler);
-                    link.addEventListener('click', navClickHandler);
-                });
-            }
-
-            function navClickHandler(e) {
-                e.preventDefault();
-                const page = this.getAttribute('data-page');
-                if (page) {
-                    showPage(page);
-                    window.location.hash = page;
-                }
-            }
-
-            function initPageFromHash() {
-                const hash = window.location.hash.replace('#', '');
-                showPage(['accueil', 'a-propos', 'services', 'projets', 'contact'].includes(hash) ? hash : 'accueil');
-            }
-
-            document.addEventListener('submit', e => {
-                if (e.target.id === 'demo-contact-form') {
-                    e.preventDefault();
-                    alert('Merci de votre message. Nous vous répondrons rapidement par email ou téléphone.');
-                }
-            });
-
-            window.addEventListener('hashchange', initPageFromHash);
-            initPageFromHash();
-        })();
-    </script>
-
-    <script>
-        document.addEventListener('click', function(e) {
-            const btn = e.target.closest('[data-page]');
-            if (btn && !btn.classList.contains('nav-link')) {
-                e.preventDefault();
-                window.location.hash = btn.getAttribute('data-page');
-            }
+      function showPage(pageId) {
+        pageContent.innerHTML = pages[pageId] || pages.accueil;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('data-page') === pageId);
         });
-    </script>
+        attachNavLinksListeners();
+      }
+
+      function attachNavLinksListeners() {
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.removeEventListener('click', navClickHandler);
+          link.addEventListener('click', navClickHandler);
+        });
+      }
+
+      function navClickHandler(e) {
+        e.preventDefault();
+        const page = this.getAttribute('data-page');
+        if (page) {
+          showPage(page);
+          window.location.hash = page;
+        }
+      }
+
+      function initPageFromHash() {
+        const hash = window.location.hash.replace('#', '');
+        showPage(['accueil', 'a-propos', 'services', 'projets', 'contact'].includes(hash) ? hash : 'accueil');
+      }
+
+      document.addEventListener('submit', e => {
+        if (e.target.id === 'demo-contact-form') {
+          e.preventDefault();
+          alert('Merci de votre message. Nous vous répondrons rapidement par email ou téléphone.');
+        }
+      });
+
+      window.addEventListener('hashchange', initPageFromHash);
+      initPageFromHash();
+    })();
+  </script>
+
+  <script>
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('[data-page]');
+      if (btn && !btn.classList.contains('nav-link')) {
+        e.preventDefault();
+        window.location.hash = btn.getAttribute('data-page');
+      }
+    });
+  </script>
 </body>
 </html>
