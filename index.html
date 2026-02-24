@@ -37,9 +37,12 @@
       margin: 0 auto;
       padding: 0 1.5rem;
     }
-    /* ----- HEADER ESPACÉ ----- */
+    /* ----- HEADER AVEC IMAGE D'ARRIÈRE-PLAN ----- */
     header {
-      background-color: #1e2f33;
+      background-image: url('https://ik.imagekit.io/fwmsbpxje/images/renovation/img36.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: white;
       padding: 1rem 0;
       box-shadow: 0 6px 15px rgba(0, 20, 10, 0.2);
@@ -47,7 +50,27 @@
       top: 0;
       z-index: 1000;
       width: 100%;
+      position: relative;
     }
+
+    /* Overlay sombre pour améliorer la lisibilité du texte */
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    /* S'assurer que le contenu est au-dessus de l'overlay */
+    header .container {
+      position: relative;
+      z-index: 2;
+    }
+
     .header-flex {
       display: flex;
       flex-direction: column;
@@ -55,6 +78,7 @@
       justify-content: center;
       gap: 0.8rem 1.5rem;
     }
+
     .logo-area {
       display: flex;
       align-items: center;
@@ -62,13 +86,16 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .logo-icon {
       font-size: 2.4rem;
       color: #f4b942;
     }
+
     .logo-text {
       text-align: center;
     }
+
     .logo-text h1 {
       font-size: 1.8rem;
       font-weight: 600;
@@ -77,12 +104,14 @@
       white-space: normal;
       word-break: keep-all;
     }
+
     .logo-text span {
       font-size: 0.9rem;
       color: #cfd7d4;
       font-weight: 400;
       display: block;
     }
+
     nav {
       width: 100%;
       overflow-x: auto;
@@ -91,12 +120,14 @@
       scrollbar-width: none;
       -ms-overflow-style: none;
       padding: 0.2rem 0 0.4rem;
-      border-top: 1px solid #3a4f4a;
+      border-top: 1px solid rgba(255,255,255,0.2);
       margin-top: 0.2rem;
     }
+
     nav::-webkit-scrollbar {
       display: none;
     }
+
     nav ul {
       display: flex;
       gap: 0.5rem 0.8rem;
@@ -105,6 +136,7 @@
       justify-content: center;
       padding: 0.3rem 0.2rem;
     }
+
     nav ul li a {
       display: inline-block;
       padding: 0.7rem 1.2rem;
@@ -115,15 +147,17 @@
       transition: 0.2s;
       font-size: 1.05rem;
       white-space: nowrap;
-      background-color: rgba(255,255,255,0.05);
-      border: 1px solid #3d5550;
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
+
     nav ul li a.active,
     nav ul li a:hover {
       background-color: #f4b942;
       color: #1e2f33;
       border-color: #f4b942;
     }
+
     @media (min-width: 760px) {
       .header-flex {
         flex-direction: row;
@@ -152,6 +186,7 @@
         padding: 0.7rem 1.3rem;
       }
     }
+
     @media (max-width: 399px) {
       .logo-text h1 {
         font-size: 1.5rem;
@@ -700,7 +735,6 @@
         ren30: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img30.jpeg',
         ren31: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img31.jpeg',
         ren32: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/img32.jpeg',
-        // NOUVELLES IMAGES AJOUTÉES
         im34: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/im34.jpeg',
         v35: 'https://ik.imagekit.io/fwmsbpxje/images/renovation/v35.jpeg',
         deb14: 'https://ik.imagekit.io/fwmsbpxje/images/dbarat/img14.jpeg?updatedAt=1771427475328',
@@ -785,7 +819,6 @@
             <div class="card"><img src="${imageUrls.ren24}" class="card-img"><div class="card-content"><h3>Carrelage & revêtements de sols</h3><p>Nous intervenons pour la pose de carrelage mural et au sol, ainsi que tous types de revêtements de sols. Que ce soit pour une salle de bain, une cuisine, un salon ou un espace professionnel, nous vous garantissons un travail précis et soigné.</p></div></div>
             <div class="card"><img src="${imageUrls.ren26}" class="card-img"><div class="card-content"><h3>Rénovation interieure - petite maçonnerie</h3><p>Nous réalisons des travaux de rénovation extérieure pour redonner vie à vos façades et espaces extérieurs. Cela comprend la peinture extérieure, les petites réparations de maçonnerie (rebouchage de fissures, reprises de murs, petits ouvrages), ainsi que divers travaux d'amélioration et d'entretien.</p></div></div>
             <div class="card"><img src="${imageUrls.img10}" class="card-img"><div class="card-content"><h3>aménagements interieure-extérieurs</h3><p>Pavés, dalles, béton désactivé : valorisez votre jardin ou cour. Création de pool house et cuisine d'été.</p></div></div>
-            <!-- NOUVELLE CARTE pour v35 (Pose de carrelage) -->
             <div class="card"><img src="${imageUrls.v35}" class="card-img"><div class="card-content"><h3>🧱 Pose de Carrelage – Finition Précise</h3><p>Installation professionnelle de carrelage avec système de nivellement pour un alignement parfait et une surface uniforme. Application soignée de la colle, respect des joints et finition impeccable pour un rendu durable et esthétique. ✨</p></div></div>
           </div>
           <div class="service-detail">
@@ -824,7 +857,6 @@
             <div class="card"><img src="${imageUrls.ren30}" class="card-img"><div class="card-content"><h3>WC – Modernisation complète</h3><p>WC entièrement rénové avec cuvette suspendue, habillage mural moderne, rangements intégrés et finitions contemporaines.</p></div></div>
             <div class="card"><img src="${imageUrls.ren31}" class="card-img"><div class="card-content"><h3>Séjour – Rénovation intérieure complète</h3><p>Transformation en un espace de vie chaleureux et lumineux avec parquet neuf, moulures murales et peinture claire pour une ambiance élégante.</p></div></div>
             <div class="card"><img src="${imageUrls.ren32}" class="card-img"><div class="card-content"><h3>Cuisine – Rénovation et aménagement sur mesure</h3><p>Installation d’une cuisine moderne et optimisée avec mobilier sur mesure, plan de travail en bois, éclairage intégré et finitions élégantes.</p></div></div>
-            <!-- NOUVELLE CARTE pour im34 (Cuisine avant/après) -->
             <div class="card"><img src="${imageUrls.im34}" class="card-img"><div class="card-content"><h3>🍽️ Aménagement Cuisine – Avant / Après</h3><p>Passage d’un espace brut à une cuisine moderne et entièrement équipée. Installation de meubles sur mesure, plan de travail en bois, crédence design et électroménager intégré pour un rendu élégant, fonctionnel et lumineux. ✨</p></div></div>
             <div class="card"><img src="${imageUrls.deb15}" class="card-img"><div class="card-content"><h3>Débarras maison – Houdan</h3><p>Intervention complète pour vider une maison avant rénovation. Évacuation de tous les encombrants et nettoyage.</p></div></div>
             <div class="card"><img src="${imageUrls.deb18}" class="card-img"><div class="card-content"><h3>Débarras garage – Mantes</h3><p>Vidage complet d'un garage et d'un atelier. Tri et évacuation des déchets et encombrants.</p></div></div>
@@ -833,50 +865,50 @@
         contact: `
           <h2 class="page-title">Contactez‑nous</h2>
           <div class="contact-grid">
-  <div>
-    <p style="margin-bottom: 1.5rem;">Réponse sous 24h, déplacement gratuit pour devis.</p>
-    
-    <form id="demo-contact-form" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-      <div class="form-group" style="width: 100%; max-width: 500px;">
-        <label for="name">Nom / société</label>
-        <input type="text" id="name" placeholder="ex: Jean Dupont" style="width: 100%;">
-      </div>
-      
-      <div class="form-group" style="width: 100%; max-width: 500px;">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="votre@email.com" style="width: 100%;">
-      </div>
-      
-      <div class="form-group" style="width: 100%; max-width: 500px;">
-        <label for="message">Message</label>
-        <textarea id="message" placeholder="Bonjour, je souhaiterais un devis pour..." style="width: 100%;"></textarea>
-      </div>
-      
-      <button type="submit" style="background: #1e2f33; color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: 0.2s; border: 2px solid #1e2f33; width: auto; min-width: 200px; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; margin: 0.5rem 0;">
-        <i class="fas fa-paper-plane"></i>Envoyer
-      </button>
-      
-      <!-- Lien d'appel direct avec icône (centré) -->
-      <p style="margin: 1.2rem 0 0.8rem; text-align: center;">
-        <a href="tel:+33772227674" class="call-link" style="display: inline-flex; align-items: center; gap: 0.4rem; background: #eef4f1; padding: 0.5rem 1.2rem; border-radius: 40px; text-decoration: none; color: #1e2f33; font-weight: 500; border: 1px solid #cbd5cf; transition: 0.2s;">
-          <i class="fas fa-phone-alt" style="color: #f4b942;"></i> +33 7 72 22 76 74
-        </a>
-      </p>
-    </form>
+            <div>
+              <p style="margin-bottom: 1.5rem;">Réponse sous 24h, déplacement gratuit pour devis.</p>
+              
+              <form id="demo-contact-form" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <div class="form-group" style="width: 100%; max-width: 500px;">
+                  <label for="name">Nom / société</label>
+                  <input type="text" id="name" placeholder="ex: Jean Dupont" style="width: 100%;">
+                </div>
+                
+                <div class="form-group" style="width: 100%; max-width: 500px;">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" placeholder="votre@email.com" style="width: 100%;">
+                </div>
+                
+                <div class="form-group" style="width: 100%; max-width: 500px;">
+                  <label for="message">Message</label>
+                  <textarea id="message" placeholder="Bonjour, je souhaiterais un devis pour..." style="width: 100%;"></textarea>
+                </div>
+                
+                <button type="submit" style="background: #1e2f33; color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: 0.2s; border: 2px solid #1e2f33; width: auto; min-width: 200px; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; margin: 0.5rem 0;">
+                  <i class="fas fa-paper-plane"></i>Envoyer
+                </button>
+                
+                <!-- Lien d'appel direct avec icône (centré) -->
+                <p style="margin: 1.2rem 0 0.8rem; text-align: center;">
+                  <a href="tel:+33772227674" class="call-link" style="display: inline-flex; align-items: center; gap: 0.4rem; background: #eef4f1; padding: 0.5rem 1.2rem; border-radius: 40px; text-decoration: none; color: #1e2f33; font-weight: 500; border: 1px solid #cbd5cf; transition: 0.2s;">
+                    <i class="fas fa-phone-alt" style="color: #f4b942;"></i> +33 7 72 22 76 74
+                  </a>
+                </p>
+              </form>
 
-    <!-- Boutons alignés WhatsApp + Email + Appel -->
-    <div class="action-buttons" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; margin-top: 1.5rem;">
-      <a href="https://wa.me/33772227674" class="btn-wsp" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #25D366; background-color: #25D366; color: white;">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-      </a>
-      <a href="mailto:Dbh.bati@gmail.com" class="btn-email" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #1e2f33; background-color: #1e2f33; color: white;">
-        <i class="fas fa-envelope"></i> Email
-      </a>
-      <a href="tel:+33772227674" class="btn-call" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #f4b942; background-color: #f4b942; color: #1e2f33;">
-        <i class="fas fa-phone"></i> Appel
-      </a>
-    </div>
-  </div>
+              <!-- Boutons alignés WhatsApp + Email + Appel -->
+              <div class="action-buttons" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; margin-top: 1.5rem;">
+                <a href="https://wa.me/33772227674" class="btn-wsp" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #25D366; background-color: #25D366; color: white;">
+                  <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="mailto:Dbh.bati@gmail.com" class="btn-email" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #1e2f33; background-color: #1e2f33; color: white;">
+                  <i class="fas fa-envelope"></i> Email
+                </a>
+                <a href="tel:+33772227674" class="btn-call" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #f4b942; background-color: #f4b942; color: #1e2f33;">
+                  <i class="fas fa-phone"></i> Appel
+                </a>
+              </div>
+            </div>
             <div class="contact-info-block">
               <h3 style="margin-bottom:1.5rem;">DBH Bâtiment</h3>
               <div class="contact-detail-item"><i class="fas fa-location-dot"></i> 21 Rue de Fontenay, 78200 Magnanville</div>
