@@ -17,6 +17,7 @@
   <!-- Font Awesome 6 (Free) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* ===== STYLES EXISTANTS CONSERVÉS À L'IDENTIQUE ===== */
     * {
       margin: 0;
       padding: 0;
@@ -37,7 +38,6 @@
       margin: 0 auto;
       padding: 0 1.5rem;
     }
-    /* ----- HEADER AVEC IMAGE D'ARRIÈRE-PLAN ----- */
     header {
       background-image: url('https://ik.imagekit.io/fwmsbpxje/images/renovation/img36.jpg');
       background-size: cover;
@@ -52,8 +52,6 @@
       width: 100%;
       position: relative;
     }
-
-    /* Overlay sombre pour améliorer la lisibilité du texte */
     header::before {
       content: '';
       position: absolute;
@@ -64,13 +62,10 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 1;
     }
-
-    /* S'assurer que le contenu est au-dessus de l'overlay */
     header .container {
       position: relative;
       z-index: 2;
     }
-
     .header-flex {
       display: flex;
       flex-direction: column;
@@ -78,7 +73,6 @@
       justify-content: center;
       gap: 0.8rem 1.5rem;
     }
-
     .logo-area {
       display: flex;
       align-items: center;
@@ -86,16 +80,13 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-
     .logo-icon {
       font-size: 2.4rem;
       color: #f4b942;
     }
-
     .logo-text {
       text-align: center;
     }
-
     .logo-text h1 {
       font-size: 1.8rem;
       font-weight: 600;
@@ -104,14 +95,12 @@
       white-space: normal;
       word-break: keep-all;
     }
-
     .logo-text span {
       font-size: 0.9rem;
       color: #cfd7d4;
       font-weight: 400;
       display: block;
     }
-
     nav {
       width: 100%;
       overflow-x: auto;
@@ -123,11 +112,9 @@
       border-top: 1px solid rgba(255,255,255,0.2);
       margin-top: 0.2rem;
     }
-
     nav::-webkit-scrollbar {
       display: none;
     }
-
     nav ul {
       display: flex;
       gap: 0.5rem 0.8rem;
@@ -136,7 +123,6 @@
       justify-content: center;
       padding: 0.3rem 0.2rem;
     }
-
     nav ul li a {
       display: inline-block;
       padding: 0.7rem 1.2rem;
@@ -150,14 +136,12 @@
       background-color: rgba(0, 0, 0, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
-
     nav ul li a.active,
     nav ul li a:hover {
       background-color: #f4b942;
       color: #1e2f33;
       border-color: #f4b942;
     }
-
     @media (min-width: 760px) {
       .header-flex {
         flex-direction: row;
@@ -186,7 +170,6 @@
         padding: 0.7rem 1.3rem;
       }
     }
-
     @media (max-width: 399px) {
       .logo-text h1 {
         font-size: 1.5rem;
@@ -518,8 +501,6 @@
         padding: 0.5rem 1rem;
       }
     }
-
-    /* ===== FLOATING WHATSAPP BUTTON ===== */
     .whatsapp-float {
       position: fixed;
       bottom: 30px;
@@ -560,8 +541,6 @@
         font-size: 38px;
       }
     }
-
-    /* Boutons d'action alignés (WhatsApp + email + appel) */
     .action-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -621,7 +600,6 @@
       color: #f4b942;
       border-color: #1e2f33;
     }
-    /* petit rappel : sur mobile on peut permettre le wrap */
     @media (max-width: 500px) {
       .action-buttons {
         flex-direction: column;
@@ -631,7 +609,6 @@
         justify-content: center;
       }
     }
-    /* téléphone dans le texte */
     .call-link {
       display: inline-flex;
       align-items: center;
@@ -657,10 +634,93 @@
     .call-link:hover i {
       color: #1e2f33;
     }
+
+    /* ===== DÉFILEMENT AUTO HORIZONTAL SIMPLE (SECTION PROJETS) ===== */
+    .auto-scroll-wrapper {
+      width: 100%;
+      overflow: hidden;
+      margin: 2rem 0;
+      padding: 1rem 0;
+    }
+
+    .auto-scroll-track {
+      display: flex;
+      gap: 1.8rem;
+      width: fit-content;
+      animation: scrollHorizontal 40s linear infinite;
+    }
+
+    .auto-scroll-track.paused {
+      animation-play-state: paused !important;
+    }
+
+    .scroll-card {
+      width: 300px;
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+      border: 1px solid #e9e3db;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .scroll-card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 25px 35px rgba(0,0,0,0.25);
+      z-index: 10;
+    }
+
+    .scroll-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 3px solid #f4b942;
+      transition: transform 0.3s ease;
+    }
+
+    .scroll-card:hover img {
+      transform: scale(1.02);
+    }
+
+    .scroll-card .card-caption {
+      padding: 1.2rem 1.2rem 1.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .scroll-card:hover .card-caption {
+      background-color: #fef9f0;
+    }
+
+    .scroll-card .card-caption h3 {
+      font-size: 1.4rem;
+      color: #25413a;
+      margin-bottom: 0.4rem;
+    }
+
+    .scroll-card .card-caption p {
+      color: #3a5a4f;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    @keyframes scrollHorizontal {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-300px * 6 - 1.8rem * 6)); }
+    }
+
+    @media (max-width: 600px) {
+      .scroll-card {
+        width: 260px;
+      }
+      @keyframes scrollHorizontal {
+        100% { transform: translateX(calc(-260px * 6 - 1.8rem * 6)); }
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- FLOATING WHATSAPP BUTTON (fixe sur tout le site) -->
   <a href="https://wa.me/33772227674" class="whatsapp-float" target="_blank" title="Envoyer un message WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
@@ -746,6 +806,79 @@
 
       const pageContent = document.getElementById('page-content');
       const navLinks = document.querySelectorAll('.nav-link');
+
+      // ===== PROJETS AVEC DÉFILEMENT AUTO (DESCRIPTIONS EXACTES) =====
+      const projetsAutoScroll = `
+        <h2 class="page-title">Nos réalisations</h2>
+        <div class="auto-scroll-wrapper" id="projet-scroll-wrapper">
+          <div class="auto-scroll-track" id="projet-scroll-track">
+            <!-- Carte 1 - avec description exacte -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img11}" alt="Rénovation complète">
+              <div class="card-caption">
+                <h3>Rénovation Intérieure Complète – Avant / Après</h3>
+                <p>Transformation totale d’un espace brut en intérieur moderne et lumineux. Travaux réalisés : faux plafond avec spots intégrés, revêtement de sol, peinture, aménagement cuisine et finitions soignées. Résultat : un espace contemporain, fonctionnel et prêt à vivre. ✨</p>
+              </div>
+            </div>
+            <!-- Carte 2 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img1}" alt="Mise en peinture">
+              <div class="card-caption">
+                <h3>Mise en peinture moderne</h3>
+                <p>Travaux de peinture réalisés avec soin et précision. Une finition moderne qui apporte luminosité et fraîcheur à l’espace.</p>
+              </div>
+            </div>
+            <!-- Carte 3 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img2}" alt="Salle de bain">
+              <div class="card-caption">
+                <h3>Rénovation de salle de bain moderne</h3>
+                <p>Aménagement d’une salle de bain contemporaine aux finitions soignées. Carrelage grand format, douche à l’italienne et mobilier épuré pour un espace lumineux et élégant.</p>
+              </div>
+            </div>
+            <!-- Carte 4 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.ren25}" alt="Avant/Après">
+              <div class="card-caption">
+                <h3>Transformation complète – Avant / Après</h3>
+                <p>Rénovation totale d’un intérieur, du gros rafraîchissement à la finition soignée. Un espace ancien transformé en pièce lumineuse, moderne et élégante grâce à un travail précis et professionnel.</p>
+              </div>
+            </div>
+            <!-- Carte 5 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.ren28}" alt="Faux plafond">
+              <div class="card-caption">
+                <h3>Installation de faux plafond en placo</h3>
+                <p>Pose professionnelle de plaques de plâtre pour la réalisation d’un faux plafond moderne. Travail précis assurant isolation, esthétique et finition de qualité pour un intérieur parfaitement aménagé.</p>
+              </div>
+            </div>
+            <!-- Carte 6 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.ren29}" alt="Salle de bain">
+              <div class="card-caption">
+                <h3>Salle de bain – Rénovation complète</h3>
+                <p>Création d’une salle de bain moderne et lumineuse avec douche vitrée, faïence contemporaine, meuble vasque suspendu et finitions soignées.</p>
+              </div>
+            </div>
+            <!-- DUPLICATA pour continuité (mêmes descriptions) -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img11}" alt="Rénovation complète">
+              <div class="card-caption">
+                <h3>Rénovation Intérieure Complète – Avant / Après</h3>
+                <p>Transformation totale d’un espace brut en intérieur moderne et lumineux. Travaux réalisés : faux plafond avec spots intégrés, revêtement de sol, peinture, aménagement cuisine et finitions soignées. ✨</p>
+              </div>
+            </div>
+            <div class="scroll-card">
+              <img src="${imageUrls.img1}" alt="Mise en peinture">
+              <div class="card-caption">
+                <h3>Mise en peinture moderne</h3>
+                <p>Travaux de peinture réalisés avec soin et précision. Une finition moderne qui apporte luminosité et fraîcheur à l’espace.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      `;
 
       const pages = {
         accueil: `
@@ -844,24 +977,7 @@
             <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
           </div>
         `,
-        projets: `
-          <h2 class="page-title">Réalisations récentes</h2>
-          <div class="grid-3">
-            <div class="card"><img src="${imageUrls.img11}" class="card-img"><div class="card-content"><h3>Rénovation Intérieure Complète – Avant / Après</h3><p>Transformation totale d’un espace brut en intérieur moderne et lumineux. Travaux réalisés : faux plafond avec spots intégrés, revêtement de sol, peinture, aménagement cuisine et finitions soignées. Résultat : un espace contemporain, fonctionnel et prêt à vivre. ✨</p></div></div>
-            <div class="card"><img src="${imageUrls.img1}" class="card-img"><div class="card-content"><h3>Mise en peinture moderne</h3><p>Travaux de peinture réalisés avec soin et précision. Une finition moderne qui apporte luminosité et fraîcheur à l’espace.</p></div></div>
-            <div class="card"><img src="${imageUrls.img2}" class="card-img"><div class="card-content"><h3>Rénovation de salle de bain moderne</h3><p>Aménagement d’une salle de bain contemporaine aux finitions soignées. Carrelage grand format, douche à l’italienne et mobilier épuré pour un espace lumineux et élégant.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren25}" class="card-img"><div class="card-content"><h3>Transformation complète – Avant / Après</h3><p>Rénovation totale d’un intérieur, du gros rafraîchissement à la finition soignée. Un espace ancien transformé en pièce lumineuse, moderne et élégante grâce à un travail précis et professionnel.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren20}" class="card-img"><div class="card-content"><h3>Rénovation extérieure – Magnanville</h3><p>Peinture de façade et petites réparations de maçonnerie pour une maison individuelle. Travaux d'amélioration et d'entretien.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren28}" class="card-img"><div class="card-content"><h3>Installation de faux plafond en placo</h3><p>Pose professionnelle de plaques de plâtre pour la réalisation d’un faux plafond moderne. Travail précis assurant isolation, esthétique et finition de qualité pour un intérieur parfaitement aménagé.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren29}" class="card-img"><div class="card-content"><h3>Salle de bain – Rénovation complète</h3><p>Création d’une salle de bain moderne et lumineuse avec douche vitrée, faïence contemporaine, meuble vasque suspendu et finitions soignées.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren30}" class="card-img"><div class="card-content"><h3>WC – Modernisation complète</h3><p>WC entièrement rénové avec cuvette suspendue, habillage mural moderne, rangements intégrés et finitions contemporaines.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren31}" class="card-img"><div class="card-content"><h3>Séjour – Rénovation intérieure complète</h3><p>Transformation en un espace de vie chaleureux et lumineux avec parquet neuf, moulures murales et peinture claire pour une ambiance élégante.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren32}" class="card-img"><div class="card-content"><h3>Cuisine – Rénovation et aménagement sur mesure</h3><p>Installation d’une cuisine moderne et optimisée avec mobilier sur mesure, plan de travail en bois, éclairage intégré et finitions élégantes.</p></div></div>
-            <div class="card"><img src="${imageUrls.im34}" class="card-img"><div class="card-content"><h3>🍽️ Aménagement Cuisine – Avant / Après</h3><p>Passage d’un espace brut à une cuisine moderne et entièrement équipée. Installation de meubles sur mesure, plan de travail en bois, crédence design et électroménager intégré pour un rendu élégant, fonctionnel et lumineux. ✨</p></div></div>
-            <div class="card"><img src="${imageUrls.deb15}" class="card-img"><div class="card-content"><h3>Débarras maison – Houdan</h3><p>Intervention complète pour vider une maison avant rénovation. Évacuation de tous les encombrants et nettoyage.</p></div></div>
-            <div class="card"><img src="${imageUrls.deb18}" class="card-img"><div class="card-content"><h3>Débarras garage – Mantes</h3><p>Vidage complet d'un garage et d'un atelier. Tri et évacuation des déchets et encombrants.</p></div></div>
-          </div>
-        `,
+        projets: projetsAutoScroll,
         contact: `
           <h2 class="page-title">Contactez‑nous</h2>
           <div class="contact-grid">
@@ -888,7 +1004,6 @@
                   <i class="fas fa-paper-plane"></i>Envoyer
                 </button>
                 
-                <!-- Lien d'appel direct avec icône (centré) -->
                 <p style="margin: 1.2rem 0 0.8rem; text-align: center;">
                   <a href="tel:+33772227674" class="call-link" style="display: inline-flex; align-items: center; gap: 0.4rem; background: #eef4f1; padding: 0.5rem 1.2rem; border-radius: 40px; text-decoration: none; color: #1e2f33; font-weight: 500; border: 1px solid #cbd5cf; transition: 0.2s;">
                     <i class="fas fa-phone-alt" style="color: #f4b942;"></i> +33 7 72 22 76 74
@@ -896,7 +1011,6 @@
                 </p>
               </form>
 
-              <!-- Boutons alignés WhatsApp + Email + Appel -->
               <div class="action-buttons" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; margin-top: 1.5rem;">
                 <a href="https://wa.me/33772227674" class="btn-wsp" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem 1.8rem; border-radius: 60px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: 0.2s; border: 2px solid #25D366; background-color: #25D366; color: white;">
                   <i class="fab fa-whatsapp"></i> WhatsApp
@@ -967,6 +1081,46 @@
       if (btn && !btn.classList.contains('nav-link')) {
         e.preventDefault();
         window.location.hash = btn.getAttribute('data-page');
+      }
+    });
+  </script>
+
+  <script>
+    // Gestion de la pause/reprise du défilement pour la page projets
+    document.addEventListener('click', function(e) {
+      // Vérifier si on est sur la page projets et si le clic est sur la zone de défilement
+      const wrapper = document.getElementById('projet-scroll-wrapper');
+      const track = document.getElementById('projet-scroll-track');
+      
+      if (wrapper && track && window.location.hash === '#projets') {
+        // Vérifier si le clic est dans la zone de défilement
+        if (wrapper.contains(e.target)) {
+          // Récupérer l'état actuel de l'animation
+          const currentAnimation = window.getComputedStyle(track).animationPlayState;
+          
+          if (currentAnimation === 'paused') {
+            // Deuxième clic : relancer l'animation
+            track.style.animationPlayState = 'running';
+          } else {
+            // Premier clic : mettre en pause
+            track.style.animationPlayState = 'paused';
+          }
+        }
+      }
+    });
+
+    // Réinitialiser l'état de l'animation quand on change de page
+    function resetProjetAnimation() {
+      const track = document.getElementById('projet-scroll-track');
+      if (track) {
+        track.style.animationPlayState = 'running';
+      }
+    }
+
+    // Observer les changements de hash pour réinitialiser l'animation
+    window.addEventListener('hashchange', function() {
+      if (window.location.hash !== '#projets') {
+        resetProjetAnimation();
       }
     });
   </script>
