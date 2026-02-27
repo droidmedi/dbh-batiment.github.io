@@ -76,13 +76,18 @@
     .logo-area {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.8rem;
       flex-wrap: wrap;
       justify-content: center;
     }
-    .logo-icon {
-      font-size: 2.4rem;
-      color: #f4b942;
+    .logo-img {
+      width: 70px;  /* Agrandi de 50px à 70px */
+      height: 70px; /* Agrandi de 50px à 70px */
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    .logo-img:hover {
+      transform: scale(1.05);
     }
     .logo-text {
       text-align: center;
@@ -177,6 +182,10 @@
       .logo-text span {
         font-size: 0.75rem;
       }
+      .logo-img {
+        width: 55px;  /* Agrandi de 40px à 55px sur mobile */
+        height: 55px; /* Agrandi de 40px à 55px sur mobile */
+      }
       nav ul li a {
         padding: 0.5rem 0.9rem;
         font-size: 0.9rem;
@@ -186,6 +195,8 @@
       min-height: 60vh;
       padding: 2rem 0 2.5rem;
     }
+    
+    /* ===== ANIMATION DU TITRE PRINCIPAL ===== */
     .page-title {
       font-size: 2.2rem;
       font-weight: 350;
@@ -195,7 +206,55 @@
       color: #1e2f33;
       line-height: 1.2;
       word-break: break-word;
+      animation: titleAppear 0.8s ease-out forwards;
+      transform-origin: left;
     }
+
+    @keyframes titleAppear {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px) scale(0.95);
+        border-left-color: transparent;
+      }
+      50% {
+        opacity: 0.8;
+        transform: translateX(5px) scale(1.02);
+        border-left-color: #f4b942;
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        border-left-color: #f4b942;
+      }
+    }
+
+    /* Animation spécifique pour la page accueil */
+    .home-title {
+      animation: homeTitleGlow 1.2s ease-out forwards;
+    }
+
+    @keyframes homeTitleGlow {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+        text-shadow: 0 0 0 rgba(244, 185, 66, 0);
+      }
+      40% {
+        opacity: 1;
+        transform: translateY(5px);
+        text-shadow: 0 0 20px rgba(244, 185, 66, 0.5);
+      }
+      70% {
+        transform: translateY(-2px);
+        text-shadow: 0 0 10px rgba(244, 185, 66, 0.3);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        text-shadow: 0 0 0 rgba(244, 185, 66, 0);
+      }
+    }
+    
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -635,7 +694,7 @@
       color: #1e2f33;
     }
 
-    /* ===== DÉFILEMENT AUTO HORIZONTAL SIMPLE (SECTION PROJETS) ===== */
+    /* ===== DÉFILEMENT AUTO HORIZONTAL SIMPLE ===== */
     .auto-scroll-wrapper {
       width: 100%;
       overflow: hidden;
@@ -718,6 +777,24 @@
         100% { transform: translateX(calc(-260px * 6 - 1.8rem * 6)); }
       }
     }
+
+    /* Style pour les images de débarras en défilement */
+    .scroll-img {
+      width: 280px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      border: 2px solid #f4b942;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .scroll-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+      border-color: #1e2f33;
+    }
   </style>
 </head>
 <body>
@@ -728,7 +805,7 @@
   <header>
     <div class="container header-flex">
       <div class="logo-area">
-        <i class="fas fa-home logo-icon"></i>
+        <img src="https://ik.imagekit.io/fwmsbpxje/logos/logo2dbh.png" alt="DBH Bâtiment Logo" class="logo-img">
         <div class="logo-text">
           <h1>DBH Bâtiment</h1>
           <span>rénovation · sérieux · confiance</span>
@@ -807,12 +884,12 @@
       const pageContent = document.getElementById('page-content');
       const navLinks = document.querySelectorAll('.nav-link');
 
-      // ===== PROJETS AVEC DÉFILEMENT AUTO (DESCRIPTIONS EXACTES) =====
+      // ===== PROJETS AVEC DÉFILEMENT AUTO =====
       const projetsAutoScroll = `
         <h2 class="page-title">Nos réalisations</h2>
         <div class="auto-scroll-wrapper" id="projet-scroll-wrapper">
           <div class="auto-scroll-track" id="projet-scroll-track">
-            <!-- Carte 1 - avec description exacte -->
+            <!-- Carte 1 -->
             <div class="scroll-card">
               <img src="${imageUrls.img11}" alt="Rénovation complète">
               <div class="card-caption">
@@ -860,7 +937,7 @@
                 <p>Création d’une salle de bain moderne et lumineuse avec douche vitrée, faïence contemporaine, meuble vasque suspendu et finitions soignées.</p>
               </div>
             </div>
-            <!-- DUPLICATA pour continuité (mêmes descriptions) -->
+            <!-- DUPLICATA pour continuité -->
             <div class="scroll-card">
               <img src="${imageUrls.img11}" alt="Rénovation complète">
               <div class="card-caption">
@@ -877,12 +954,121 @@
             </div>
           </div>
         </div>
+      `;
+
+      // ===== SECTION SERVICES AVEC DÉFILEMENT DES CARTES =====
+      const servicesPage = `
+        <h2 class="page-title">Nos services</h2>
         
+        <!-- Zone de défilement des cartes services -->
+        <div class="auto-scroll-wrapper" id="services-scroll-wrapper">
+          <div class="auto-scroll-track" id="services-scroll-track">
+            <!-- Carte 1 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img8}" alt="Rénovation intérieure">
+              <div class="card-caption">
+                <h3>Rénovation intérieure</h3>
+                <p>Plâtrerie, carrelage, peinture, agencements sur-mesure : donnez une nouvelle vie à vos espaces. Rénovation complète ou partielle.</p>
+              </div>
+            </div>
+            <!-- Carte 2 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.ren21}" alt="Rénovation extérieure">
+              <div class="card-caption">
+                <h3>Rénovation extérieure</h3>
+                <p>DBH Bâtiment réalise tous vos travaux extérieure. Nous préparons soigneusement les supports (ponçage, enduits, rebouchage) afin d'assurer une finition propre, durable et esthétique.</p>
+              </div>
+            </div>
+            <!-- Carte 3 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.ren24}" alt="Carrelage">
+              <div class="card-caption">
+                <h3>Carrelage & revêtements de sols</h3>
+                <p>Nous intervenons pour la pose de carrelage mural et au sol, ainsi que tous types de revêtements de sols. Que ce soit pour une salle de bain, une cuisine, un salon ou un espace professionnel, nous vous garantissons un travail précis et soigné.</p>
+              </div>
+            </div>
+            <!-- Carte 4 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.ren26}" alt="Petite maçonnerie">
+              <div class="card-caption">
+                <h3>Rénovation interieure - petite maçonnerie</h3>
+                <p>Nous réalisons des travaux de rénovation extérieure pour redonner vie à vos façades et espaces extérieurs. Cela comprend la peinture extérieure, les petites réparations de maçonnerie (rebouchage de fissures, reprises de murs, petits ouvrages), ainsi que divers travaux d'amélioration et d'entretien.</p>
+              </div>
+            </div>
+            <!-- Carte 5 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img10}" alt="Aménagements">
+              <div class="card-caption">
+                <h3>aménagements interieure-extérieurs</h3>
+                <p>Pavés, dalles, béton désactivé : valorisez votre jardin ou cour. Création de pool house et cuisine d'été.</p>
+              </div>
+            </div>
+            <!-- Carte 6 -->
+            <div class="scroll-card">
+              <img src="${imageUrls.v35}" alt="Pose de Carrelage">
+              <div class="card-caption">
+                <h3>🧱 Pose de Carrelage – Finition Précise</h3>
+                <p>Installation professionnelle de carrelage avec système de nivellement pour un alignement parfait et une surface uniforme. Application soignée de la colle, respect des joints et finition impeccable pour un rendu durable et esthétique. ✨</p>
+              </div>
+            </div>
+            <!-- DUPLICATA pour continuité -->
+            <div class="scroll-card">
+              <img src="${imageUrls.img8}" alt="Rénovation intérieure">
+              <div class="card-caption">
+                <h3>Rénovation intérieure</h3>
+                <p>Plâtrerie, carrelage, peinture, agencements sur-mesure : donnez une nouvelle vie à vos espaces. Rénovation complète ou partielle.</p>
+              </div>
+            </div>
+            <div class="scroll-card">
+              <img src="${imageUrls.ren21}" alt="Rénovation extérieure">
+              <div class="card-caption">
+                <h3>Rénovation extérieure</h3>
+                <p>DBH Bâtiment réalise tous vos travaux extérieure. Nous préparons soigneusement les supports (ponçage, enduits, rebouchage) afin d'assurer une finition propre, durable et esthétique.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="service-detail">
+          <h3 style="font-size: 2rem; margin-bottom: 1rem; color: #25413a;"><i class="fas fa-truck" style="color: #f4b942; margin-right: 1rem;"></i>Service de débarras</h3>
+          <p style="font-size: 1.2rem; margin-bottom: 2rem;">En complément de nos travaux de rénovation, nous proposons un service de débarras professionnel. Nous intervenons pour vider maisons, appartements, garages ou locaux après travaux ou avant rénovation.</p>
+          <p style="font-size: 1.1rem; margin-bottom: 2rem;">Nous assurons l'évacuation des gravats, encombrants et déchets, afin de vous laisser un espace propre et prêt à être réutilisé.</p>
+          
+          <!-- Titre fixe -->
+          <div class="gallery-title" style="margin-bottom: 0.5rem;"><i class="fas fa-images" style="color: #f4b942;"></i><span>Quelques exemples de nos interventions</span></div>
+          
+          <!-- Zone de défilement des photos débarras -->
+          <div class="auto-scroll-wrapper" id="debarras-scroll-wrapper" style="margin-top: 1rem;">
+            <div class="auto-scroll-track" id="debarras-scroll-track">
+              <img src="${imageUrls.deb15}" class="scroll-img" alt="Débarras avant/après">
+              <img src="${imageUrls.deb18}" class="scroll-img" alt="Débarras maison">
+              <img src="${imageUrls.deb19}" class="scroll-img" alt="Évacuation encombrants">
+              <img src="${imageUrls.deb14}" class="scroll-img" alt="Débarras garage">
+              <img src="${imageUrls.deb16}" class="scroll-img" alt="Nettoyage après débarras">
+              <img src="${imageUrls.deb15}" class="scroll-img" alt="Débarras avant/après">
+              <img src="${imageUrls.deb18}" class="scroll-img" alt="Débarras maison">
+              <img src="${imageUrls.deb19}" class="scroll-img" alt="Évacuation encombrants">
+              <img src="${imageUrls.deb14}" class="scroll-img" alt="Débarras garage">
+              <img src="${imageUrls.deb16}" class="scroll-img" alt="Nettoyage après débarras">
+            </div>
+          </div>
+          
+          <div style="margin-top: 2rem; text-align: center;">
+            <a href="#contact" class="btn btn-contact" data-page="contact" style="font-size: 1.2rem; padding: 0.8rem 2.5rem;">Demander un devis débarras</a>
+          </div>
+        </div>
+        
+        <div class="engagement-block">
+          <h3 style="color: #1e2f33; margin-bottom: 1.5rem;"><i class="fas fa-handshake" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre engagement</h3>
+          <p style="font-size: 1.1rem; margin-bottom: 1rem;">Chez DBH Bâtiment, nous plaçons la qualité et la satisfaction client au cœur de chacune de nos réalisations. Chaque chantier, qu'il s'agisse d'une simple remise en état ou d'une rénovation complète, est réalisé avec le même niveau d'exigence et d'attention aux détails.</p>
+          <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nous nous engageons à fournir un travail soigné, durable et conforme aux normes en vigueur. Le respect des délais annoncés fait partie de nos priorités, car nous savons à quel point votre temps est précieux. Nous veillons également à maintenir un chantier propre et organisé tout au long des travaux.</p>
+          <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
+        </div>
       `;
 
       const pages = {
         accueil: `
-          <h2 class="page-title">Bienvenue chez DBH Bâtiment</h2>
+          <h2 class="page-title home-title">Bienvenue chez DBH Bâtiment</h2>
           <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
             <div style="flex: 1 1 260px;">
               <p style="font-size: 1.2rem; font-weight: 300;">Artisans expérimentés, nous réalisons vos travaux de rénovation avec passion dans les Yvelines et en Île-de-France.</p>
@@ -944,39 +1130,7 @@
             <div style="flex: 1 1 200px;"><i class="fas fa-calendar-check" style="font-size: 2rem; color: #f4b942;"></i><h4>Garantie décennale</h4><p>Votre projet est assuré et sécurisé de A à Z.</p></div>
           </div>
         `,
-        services: `
-          <h2 class="page-title">Nos services</h2>
-          <div class="grid-3">
-            <div class="card"><img src="${imageUrls.img8}" class="card-img"><div class="card-content"><h3>Rénovation intérieure</h3><p>Plâtrerie, carrelage, peinture, agencements sur-mesure : donnez une nouvelle vie à vos espaces. Rénovation complète ou partielle.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren21}" class="card-img"><div class="card-content"><h3>Rénovation extérieure</h3><p>DBH Bâtiment réalise tous vos travaux extérieure. Nous préparons soigneusement les supports (ponçage, enduits, rebouchage) afin d'assurer une finition propre, durable et esthétique.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren24}" class="card-img"><div class="card-content"><h3>Carrelage & revêtements de sols</h3><p>Nous intervenons pour la pose de carrelage mural et au sol, ainsi que tous types de revêtements de sols. Que ce soit pour une salle de bain, une cuisine, un salon ou un espace professionnel, nous vous garantissons un travail précis et soigné.</p></div></div>
-            <div class="card"><img src="${imageUrls.ren26}" class="card-img"><div class="card-content"><h3>Rénovation interieure - petite maçonnerie</h3><p>Nous réalisons des travaux de rénovation extérieure pour redonner vie à vos façades et espaces extérieurs. Cela comprend la peinture extérieure, les petites réparations de maçonnerie (rebouchage de fissures, reprises de murs, petits ouvrages), ainsi que divers travaux d'amélioration et d'entretien.</p></div></div>
-            <div class="card"><img src="${imageUrls.img10}" class="card-img"><div class="card-content"><h3>aménagements interieure-extérieurs</h3><p>Pavés, dalles, béton désactivé : valorisez votre jardin ou cour. Création de pool house et cuisine d'été.</p></div></div>
-            <div class="card"><img src="${imageUrls.v35}" class="card-img"><div class="card-content"><h3>🧱 Pose de Carrelage – Finition Précise</h3><p>Installation professionnelle de carrelage avec système de nivellement pour un alignement parfait et une surface uniforme. Application soignée de la colle, respect des joints et finition impeccable pour un rendu durable et esthétique. ✨</p></div></div>
-          </div>
-          <div class="service-detail">
-            <h3 style="font-size: 2rem; margin-bottom: 1rem; color: #25413a;"><i class="fas fa-truck" style="color: #f4b942; margin-right: 1rem;"></i>Service de débarras</h3>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;">En complément de nos travaux de rénovation, nous proposons un service de débarras professionnel. Nous intervenons pour vider maisons, appartements, garages ou locaux après travaux ou avant rénovation.</p>
-            <p style="font-size: 1.1rem; margin-bottom: 2rem;">Nous assurons l'évacuation des gravats, encombrants et déchets, afin de vous laisser un espace propre et prêt à être réutilisé.</p>
-            <div class="gallery-title"><i class="fas fa-images" style="color: #f4b942;"></i><span>Quelques exemples de nos interventions</span></div>
-            <div class="grid-5">
-              <img src="${imageUrls.deb15}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras avant/après">
-              <img src="${imageUrls.deb18}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras maison">
-              <img src="${imageUrls.deb19}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Évacuation encombrants">
-              <img src="${imageUrls.deb14}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Débarras garage">
-              <img src="${imageUrls.deb16}" class="card-img" style="height: 180px; border-radius: 20px;" alt="Nettoyage après débarras">
-            </div>
-            <div style="margin-top: 2rem; text-align: center;">
-              <a href="#contact" class="btn btn-contact" data-page="contact" style="font-size: 1.2rem; padding: 0.8rem 2.5rem;">Demander un devis débarras</a>
-            </div>
-          </div>
-          <div class="engagement-block">
-            <h3 style="color: #1e2f33; margin-bottom: 1.5rem;"><i class="fas fa-handshake" style="color: #f4b942; margin-right: 0.8rem;"></i>Notre engagement</h3>
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Chez DBH Bâtiment, nous plaçons la qualité et la satisfaction client au cœur de chacune de nos réalisations. Chaque chantier, qu'il s'agisse d'une simple remise en état ou d'une rénovation complète, est réalisé avec le même niveau d'exigence et d'attention aux détails.</p>
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Nous nous engageons à fournir un travail soigné, durable et conforme aux normes en vigueur. Le respect des délais annoncés fait partie de nos priorités, car nous savons à quel point votre temps est précieux. Nous veillons également à maintenir un chantier propre et organisé tout au long des travaux.</p>
-            <p style="font-size: 1.1rem;">À l'écoute de vos besoins, nous vous conseillons avec transparence afin de vous proposer les solutions les plus adaptées à votre budget et à vos attentes. Notre objectif est simple : vous offrir un résultat à la hauteur de votre projet et établir une relation de confiance sur le long terme.</p>
-          </div>
-        `,
+        services: servicesPage,
         projets: projetsAutoScroll,
         contact: `
           <h2 class="page-title">Contactez‑nous</h2>
@@ -1086,42 +1240,61 @@
   </script>
 
   <script>
-    // Gestion de la pause/reprise du défilement pour la page projets
+    // Gestion de la pause/reprise du défilement pour les trois zones
     document.addEventListener('click', function(e) {
-      // Vérifier si on est sur la page projets et si le clic est sur la zone de défilement
-      const wrapper = document.getElementById('projet-scroll-wrapper');
-      const track = document.getElementById('projet-scroll-track');
+      // Pour la page projets
+      const projetWrapper = document.getElementById('projet-scroll-wrapper');
+      const projetTrack = document.getElementById('projet-scroll-track');
       
-      if (wrapper && track && window.location.hash === '#projets') {
-        // Vérifier si le clic est dans la zone de défilement
-        if (wrapper.contains(e.target)) {
-          // Récupérer l'état actuel de l'animation
-          const currentAnimation = window.getComputedStyle(track).animationPlayState;
-          
-          if (currentAnimation === 'paused') {
-            // Deuxième clic : relancer l'animation
-            track.style.animationPlayState = 'running';
-          } else {
-            // Premier clic : mettre en pause
-            track.style.animationPlayState = 'paused';
-          }
+      if (projetWrapper && projetTrack && window.location.hash === '#projets') {
+        if (projetWrapper.contains(e.target)) {
+          const currentAnimation = window.getComputedStyle(projetTrack).animationPlayState;
+          projetTrack.style.animationPlayState = currentAnimation === 'paused' ? 'running' : 'paused';
+        }
+      }
+      
+      // Pour les cartes services
+      const servicesWrapper = document.getElementById('services-scroll-wrapper');
+      const servicesTrack = document.getElementById('services-scroll-track');
+      
+      if (servicesWrapper && servicesTrack && window.location.hash === '#services') {
+        if (servicesWrapper.contains(e.target)) {
+          const currentAnimation = window.getComputedStyle(servicesTrack).animationPlayState;
+          servicesTrack.style.animationPlayState = currentAnimation === 'paused' ? 'running' : 'paused';
+        }
+      }
+      
+      // Pour les photos débarras
+      const debarrasWrapper = document.getElementById('debarras-scroll-wrapper');
+      const debarrasTrack = document.getElementById('debarras-scroll-track');
+      
+      if (debarrasWrapper && debarrasTrack && window.location.hash === '#services') {
+        if (debarrasWrapper.contains(e.target)) {
+          const currentAnimation = window.getComputedStyle(debarrasTrack).animationPlayState;
+          debarrasTrack.style.animationPlayState = currentAnimation === 'paused' ? 'running' : 'paused';
         }
       }
     });
 
-    // Réinitialiser l'état de l'animation quand on change de page
-    function resetProjetAnimation() {
-      const track = document.getElementById('projet-scroll-track');
-      if (track) {
-        track.style.animationPlayState = 'running';
+    // Réinitialiser les animations quand on change de page
+    function resetAllAnimations() {
+      const projetTrack = document.getElementById('projet-scroll-track');
+      const servicesTrack = document.getElementById('services-scroll-track');
+      const debarrasTrack = document.getElementById('debarras-scroll-track');
+      
+      if (projetTrack) {
+        projetTrack.style.animationPlayState = 'running';
+      }
+      if (servicesTrack) {
+        servicesTrack.style.animationPlayState = 'running';
+      }
+      if (debarrasTrack) {
+        debarrasTrack.style.animationPlayState = 'running';
       }
     }
 
-    // Observer les changements de hash pour réinitialiser l'animation
     window.addEventListener('hashchange', function() {
-      if (window.location.hash !== '#projets') {
-        resetProjetAnimation();
-      }
+      resetAllAnimations();
     });
   </script>
 </body>
